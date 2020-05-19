@@ -1,90 +1,11 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>SACU CONECTA</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
-
-    <!-- CSS
-	============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- Icon Font CSS -->
-    <link rel="stylesheet" href="assets/css/icons.min.css">
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href="assets/css/plugins.css">
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
+<?php
+require_once('includes/head.php');
+?>
 
 <body>
-  <header class="header-area">
-      <div class="header-top bg-img">
-          <div class="container">
-              <div class="row">
-                  <div class="col-lg-6 col-md-7 col-12 col-sm-8">
-                      <div class="header-contact">
-                          <ul>
-                              <li><i class="fa fa-phone"></i> 954 48 60 16</li>
-                              <li><i class="fa fa-envelope-o"></i><a href="#">intercambiolinguistico@us.es</a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="col-lg-6 col-md-5 col-12 col-sm-4">
-                      <div class="login-register">
-                          <ul>
-                              <li><a href="login-register.html">Iniciar sesion</a></li>
-                              <li><a href="login-register.html">Registrarse</a></li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="header-bottom sticky-bar clearfix">
-          <div class="container">
-              <div class="row">
-                  <div class="col-lg-2 col-md-6 col-4">
-                      <div class="logo">
-                          <a href="index.html">
-                              <img alt="" src="assets/img/logo/logo.png">
-                          </a>
-                      </div>
-                  </div>
-                  <div class="col-lg-10 col-md-6 col-8">
-                      <div class="menu-cart-wrap">
-                          <div class="main-menu">
-                              <nav>
-                                  <ul>
-                                      <li><a href="index.html"> INICIO </a>
-
-                                      </li>
-                                      <li><a href="about-us.html"> Quienes somos </a></li>
-
-
-                                      <li><a href="blog.html"> BLOG </a>
-
-                                      </li>
-                                      <li><a href="contact.html"> CONTACTAR </a></li>
-                                  </ul>
-                              </nav>
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-      </div>
-  </header>
+<?php
+require_once('includes/header.php');
+?>
 <div class="breadcrumb-area">
     <div class="breadcrumb-top default-overlay bg-img breadcrumb-overly-5 pt-100 pb-95" style="background-image:url(assets/img/bg/breadcrumb-bg-6.jpg);">
         <div class="container">
@@ -126,115 +47,13 @@
     </div>
 </div>
 
-<footer class="footer-area">
-    <div class="footer-top bg-img default-overlay pt-130 pb-80" style="background-image:url(assets/img/bg/bg-4.jpg);">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer-widget mb-40">
-                        <div class="footer-title">
-                            <h4>DONDE ESTAMOS UBICADOS</h4>
-                        </div>
-                        <div class="footer-about">
-                            <div class="f-contact-info">
-                                <div class="single-f-contact-info">
-                                    <i class="fa fa-home"></i>
-                                    <span>Pabellón de Uruguay, Avda. de Chile s/n
-                                        41013 - SEVILLA </span>
-                                </div>
-                                <div class="single-f-contact-info">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span><a href="#">intercambiolinguistico@us.es</a></span>
-                                </div>
-                                <div class="single-f-contact-info">
-                                    <i class="fa fa-phone"></i>
-                                    <span> 954 48 60 16</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<?php
+require_once('includes/footer.php');
+require_once('includes/js.php');
 
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                                    <div class="footer-widget mb-40">
-                                        <div class="footer-title">
-                                            <h4>GALERIA</h4>
-                                        </div>
-                                        <div class="footer-gallery">
-                                            <ul>
-                                                <li><a href="#"><img src="assets/img/gallery/gallery-1.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/img/gallery/gallery-2.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/img/gallery/gallery-3.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/img/gallery/gallery-4.png" alt=""></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+?>
 
 
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom pt-15 pb-15">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 col-md-12">
-                    <div class="copyright">
-                        <p>
-                            Copyright © 2020
-                            <a href="#">SACU</a> . Todos los derechos reservados.
-                        </p>
-                        <p>Designed by: Luis Rolando Cahuana Leon</p>
-                        <p>Seville - Spain - 2020</p>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-12">
-                    <div class="footer-menu-social">
-                        <div class="footer-menu">
-                            <ul>
-                                <li><a href="#">Privacidad & Politicas</a></li>
-                                <li><a href="#">Terminos & Condiciones de uso</a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-</footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- JS
-============================================ -->
-
-<!-- jQuery JS -->
-<script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
-<!-- Popper JS -->
-<script src="assets/js/popper.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="assets/js/bootstrap.min.js"></script>
-<!-- Plugins JS -->
-<script src="assets/js/plugins.js"></script>
-<!-- Ajax Mail -->
-<script src="assets/js/ajax-mail.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzcEM8z2_imGO8TMRmJEpDEahvZ7KYY_U"></script>
 <script>
     function init() {
@@ -432,8 +251,6 @@
     }
     google.maps.event.addDomListener(window, 'load', init);
 </script>
-<!-- Main JS -->
-<script src="assets/js/main.js"></script>
 
 </body>
 
