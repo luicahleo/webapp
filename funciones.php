@@ -1,23 +1,10 @@
 <?php
-//esta es una funcion externa, no funciona con lo que tenga dentro las funciones
-//$mysqli = mysqli_connect("localhost","root","","SacuIntercambio");
 
-/****************************************************************/
-/*Funcion para conectar BD en localhost*/
-/****************************************************************/
-/*function conecta_BD(){
-  $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
-
-  if ($mysqli==false){
-    echo "Hubo un problema al conectarse a María DB";
-    die();
-  }
-}*/
 /****************************************************************/
 /*Funcion para conectar BD en VPS*/
 /****************************************************************/
 function conecta_BD(){
-  $mysqli = mysqli_connect("localhost","root","","admin_intercambio_linguistico");
+  $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
 
   if ($mysqli==false){
     echo "Hubo un problema al conectarse a María DB";

@@ -41,7 +41,7 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
   }else{
     //momento de conectarnos a db
 
-    $mysqli = mysqli_connect("localhost","root","","SacuIntercambio");
+    $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
 
 
     //verificamos si hay algun problema con la conexion
