@@ -25,7 +25,6 @@ while($usuario = mysqli_fetch_assoc($query)){
     //echo'<br/><br/>';
     //print_r($usuario);
 
-
 }
 
 

@@ -15,21 +15,16 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     $email = strip_tags($_POST['email']);
     $password= sha1(strip_tags($_POST['password']));
 
-    require_once('funciones.php');
+    $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
+    
+    if ($mysqli==false){
+      echo "Hubo un problema al conectarse a María DB";
+      die();
+    }
 
-    $mysqli = conecta_BD();
-    echo "debug";
-    echo $mysqli;
-    $cantidad = verifica_email_password($email, $password, $mysqli);
+    $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' AND  `usuarios_password` = '".$password."' ");
+    $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
 
-
-    // $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' AND  `usuarios_password` = '".$password."' ");
-    // $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
-
-    // echo "<pre>";
-    // print_r($usuarios);
-    // echo "</pre>";
-    // die();
 
     //cargo datos del usuario en variables de sesión
 

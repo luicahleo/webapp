@@ -1,33 +1,14 @@
 <?php
 
-/****************************************************************/
-/*Funcion para conectar BD en VPS*/
-/****************************************************************/
-function conecta_BD(){
-  $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
+$mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
 
-  if ($mysqli==false){
-    echo "Hubo un problema al conectarse a María DB";
-    die();
-  }
-  return $mysqli;
+if ($mysqli==false){
+  echo "Hubo un problema al conectarse a María DB";
+  die();
 }
-
-/****************************************************************/
-/*Funcion para consultar email y password*/
-/*parametros: email, password
-/****************************************************************/
-function verifica_email_password($email,$password,$mysqli){
-  $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' AND  `usuarios_password` = '".$password."' ");
-  $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
-  return usuarios;
-}
-
-
-
 
 function obtiene_videos(){
-  $mysqli = $GLOBALS['mysqli'];//vamo a usar el mysqli de afuera
+  $mysqli = $GLOBALS['mysqli'];
 
   $resultado = $mysqli->query("SELECT * FROM `usuarios_y_videos` WHERE 1 ORDER BY `videos_id` DESC");
   $videos = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -93,16 +74,15 @@ function graba_imagen($archivo){
   $msg = "";
 
   $target_dir = "archivos/";
-  $target_file = $target_dir . basename($archivo["archivo"]["name"]);//trae el nobre del archivo y la extencion
+  $target_file = $target_dir . basename($archivo["archivo"]["name"]);
   $uploadOk = 1;
-  //guaramos la extencion y la pasamos a minusculas
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
   // ya hay una archivo que existe con ese nombre?
   if (file_exists($target_file)) {
-    $msg .= "La imagen ya existe. <br>"; //concatenamos mensajes
-    $uploadOk = 1; //subida correcta
+    $msg .= "La imagen ya existe. <br>";
+    $uploadOk = 1;
   }
 
   // Tamaño máximo de la imagen
@@ -123,10 +103,8 @@ function graba_imagen($archivo){
     $msg .= "Lo siento la imagen no puedo subirse.<br>";
     // si todo está bien guardamos la imagen
   } else {
-    //si devuelve un true, entonces si se ha podido subir el archivo
     if (move_uploaded_file($archivo["archivo"]["tmp_name"], $target_file)) {
       $msg .= "La imagen  ". basename($archivo["archivo"]["name"]). " ha sido subida.";
-      //actualizamos la direccion del archivo
       $mysqli->query("UPDATE `usuarios` SET `usuarios_imagen`= '".$target_file."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
     } else {
       $msg .= "Lo siento, hubo un error a la hora de grabar en disco la imagen.<br>";
