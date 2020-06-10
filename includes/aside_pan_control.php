@@ -14,9 +14,7 @@
                             <li>
                                 <a href="reservas.php"><i class="fa fa-users"></i>Reservas de horarios</a>
                             </li>
-                            <li>
-                                <a href="configuracion.php"><i class="fa fa-cog"></i>Configuracion</a>
-                            </li>
+                            
                            
                             
                           

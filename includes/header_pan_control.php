@@ -98,9 +98,8 @@
                     <!-- Add .dropdown-center-responsive class to align the dropdown menu center (so its visible on mobile) -->
                     <li id="notifications-widget" class="dropdown dropdown-center-responsive">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-flag"></i>
-                            <span class="badge badge-danger">1</span>
-                            <span class="badge badge-warning">2</span>
+                            <i class="fa fa-bell"></i>
+                            
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right widget">
                             <li class="widget-heading"><a href="javascript:void(0)" class="pull-right widget-link"><i class="fa fa-cog"></i></a><a href="javascript:void(0)" class="widget-link">System</a></li>
@@ -156,19 +155,17 @@
                         <ul class="dropdown-menu">
                             <!-- Just a button demostrating how loading of widgets could happen, check main.js- - uiDemo() -->
                             <li>
-                                <a href="javascript:void(0)" class="loading-on"><i class="fa fa-refresh"></i> Refresh</a>
+                                <a href="javascript:void(0)" class="loading-on"><i class="fa fa-refresh"></i> Refrescar</a>
                             </li>
                             <li class="divider"></li>
                             <li>
                                 <!-- Modal div is at the bottom of the page before including javascript code -->
-                                <a href="#modal-user-settings" role="button" data-toggle="modal"><i class="fa fa-user"></i> User Profile</a>
+                                <a href="#modal-user-settings" role="button" data-toggle="modal"><i class="fa fa-user"></i> Perfil de usuario</a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="fa fa-wrench"></i> App Settings</a>
-                            </li>
+                            
                             <li class="divider"></li>
                             <li>
-                                <a href="page_login.html"><i class="fa fa-lock"></i> Log out</a>
+                                <a href="page_login.html"><i class="fa fa-lock"></i> Salir</a>
                             </li>
                         </ul>
                     </li>

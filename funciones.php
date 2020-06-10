@@ -21,51 +21,50 @@ function obtiene_videos(){
 
 }
 
-function graba_video($archivo){
-  $mysqli = $GLOBALS['mysqli'];
-  $msg = "";
+// function graba_video($archivo){
+//   $mysqli = $GLOBALS['mysqli'];
+//   $msg = "";
 
-  $target_dir = "archivos/";
-  $target_file = $target_dir . basename($archivo["archivo"]["name"]);
-  $uploadOk = 1;
-  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+//   $target_dir = "archivos/";
+//   $target_file = $target_dir . basename($archivo["archivo"]["name"]);
+//   $uploadOk = 1;  
+//   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
-  // ya hay una archivo que existe con ese nombre?
-  if (file_exists($target_file)) {
-    $msg .= "El video ya existe. <br>";
-    $uploadOk = 1;
-  }
+//   // ya hay una archivo que existe con ese nombre?
+//   if (file_exists($target_file)) {
+//     $msg .= "El video ya existe. <br>";
+//     $uploadOk = 1;
+//   }
 
-  // Tamaño máximo de la imagen
-  if ($archivo["archivo"]["size"] > 500000000) {
-    $msg .= "Lo siento, el archivo es muy grande.<br>";
-    $uploadOk = 0;
-  }
+//   // Tamaño máximo de la imagen
+//   if ($archivo["archivo"]["size"] > 500000000) {
+//     $msg .= "Lo siento, el archivo es muy grande.<br>";
+//     $uploadOk = 0;
+//   }
 
-  // Formatos autorizados
-  if($imageFileType != "mp4" ) {
-    $msg .= "Lo siento solo mp4 está permitido. <br>";
-    $uploadOk = 0;
-  }
+//   // Formatos autorizados
+//   if($imageFileType != "mp4" ) {
+//     $msg .= "Lo siento solo mp4 está permitido. <br>";
+//     $uploadOk = 0;
+//   }
 
-  // Si upload ok es 0 entonces hubo un error
-  if ($uploadOk == 0) {
-    $msg .= "Lo siento el video no puedo subirse.<br>";
-    // si todo está bien guardamos la imagen
-  } else {
-    if (move_uploaded_file($archivo["archivo"]["tmp_name"], $target_file)) {
-      $msg .= "El video  ". basename($archivo["archivo"]["name"]). " ha sido subido.";
-      $mysqli->query("INSERT INTO `videos` (`videos_url`, `videos_usuario_id`) VALUES ('".$target_file."', '".$_SESSION['usuarios_id']."');");
-    } else {
-      $msg .= "Lo siento, hubo un error a la hora de grabar en disco el video.<br>";
-    }
-  }
+//   // Si upload ok es 0 entonces hubo un error
+//   if ($uploadOk == 0) {
+//     $msg .= "Lo siento el video no puedo subirse.<br>";
+//     // si todo está bien guardamos la imagen
+//   } else {
+//     if (move_uploaded_file($archivo["archivo"]["tmp_name"], $target_file)) {
+//       $msg .= "El video  ". basename($archivo["archivo"]["name"]). " ha sido subido.";
+//       $mysqli->query("INSERT INTO `videos` (`videos_url`, `videos_usuario_id`) VALUES ('".$target_file."', '".$_SESSION['usuarios_id']."');");
+//     } else {
+//       $msg .= "Lo siento, hubo un error a la hora de grabar en disco el video.<br>";
+//     }
+//   }
 
-  return $msg;
+//   return $msg;
 
-}
-
+// }
 
 
 function graba_imagen($archivo){
@@ -76,7 +75,7 @@ function graba_imagen($archivo){
   $target_dir = "archivos/";
   $target_file = $target_dir . basename($archivo["archivo"]["name"]);
   $uploadOk = 1;
-  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); //nos quedamos con la extension de la imagen
 
 
   // ya hay una archivo que existe con ese nombre?
@@ -86,14 +85,14 @@ function graba_imagen($archivo){
   }
 
   // Tamaño máximo de la imagen
-  if ($archivo["archivo"]["size"] > 500000) {
+  if ($archivo["archivo"]["size"] > 5000000) {
     $msg .= "Lo siento, el archivo es muy grande.<br>";
     $uploadOk = 0;
   }
 
   // Formatos autorizados
   if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-  && $imageFileType != "gif" ) {
+      && $imageFileType != "gif" ) { //si el archivo es distinto a estas extenciones no lo subimos
     $msg .= "Lo siento solo JPG, JPEG, PNG & GIF está permitido. <br>";
     $uploadOk = 0;
   }
