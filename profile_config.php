@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 $autorizado = $_SESSION['autorizado'];
@@ -10,14 +11,17 @@ if($autorizado==false){
 
 require_once('includes/funciones.php');
 
+obtener_imagen_usuario();
+
 $msg = "";
 $msg2 = "";
 
 
-//recibimos post de formulario de seteos para ensenar
-if ($_POST){
-  $data_teach = $_POST;
-  $msg = save_teach_data($data_teach);
+
+//recibimos post de formulario cambio de imagen usuario
+if ($_FILES){
+  $archivo = $_FILES;
+  $msg = graba_imagen($archivo);
 }
 
 //recibimos post de formulario cambio de clave
@@ -38,6 +42,23 @@ if( isset($_POST['new-password']) && isset($_POST['retry-new-password'])) {
   }  
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//$videos = obtiene_videos();
 
 ?>
 
@@ -71,17 +92,89 @@ if( isset($_POST['new-password']) && isset($_POST['retry-new-password'])) {
                     
                     <!-- END Navigation info -->
 
-                  
-                        <h2 class="form-box-header">Panel de control </h2>
+                    <!-- Form Validation, Validation Initialization happens at the bottom of the page -->
+                    <form id="form-validation" action="profile_config.php" method="post" class="form-horizontal form-box remove-margin">
+                        <!-- Form Header -->
+                        <h4 class="form-box-header">Perfil de usuario </h4>
+
+                        <!-- Form Content -->
+                        <div class="form-box-content">
+                           
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="new-password">Contrasena *</label>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-asterisk fa-fw"></i></span>
+                                        <input type="password" id="new-password" name="new-password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="retry-new-password">Repite contrasena *</label>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-asterisk fa-fw"></i></span>
+                                        <input type="password" id="retry-new-password" name="retry-new-password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="form-group form-actions">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <button type="reset" class="btn btn-danger"><i class="fa fa-repeat"></i> Borrar</button>
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                                    <div style="color: red">
+                                        <?php 
+                                            if($msg2 !=""){
+                                                echo $msg2;
+                                            }
+                                        ?>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- END Form Content -->
+                    </form>
+                    <!-- END Form Validation -->
+
+                    <!-- Form Image -->
+                    <form id="form-Image" action="profile_config.php" method="post" class="form-horizontal form-box remove-margin" enctype="multipart/form-data">
+                        <!-- Form Header -->
+                        <h4 class="form-box-header">Actualizar imagen de perfil </h4>
+
+                        <!-- Form Image -->
+                        <div class="form-box-content">
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="val_image">Imagen</label>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-picture-o fa-fw"></i></span>
+                                        <input type="file" id="val_image" name="val_image" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-actions">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Actualizar imagen </button>
+                                    
+                                    <div style="color: red">
+                                        <?php 
+                                            if($msg !=""){
+                                                echo $msg;
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Form Content -->
+                    </form>
+                    <!-- END Form Image -->
 
 
-                        <p class="well">El programa de Intercambio Lingüístico es un instrumento que se ofrece desde el SACU para facilitar la comunicación a los universitarios españoles y extranjeros, con el fin de promover el intercambio cultural y lingüístico.
-                                Se pretenden "encuentros" entre los universitarios españoles y extranjeros, para mantener una interacción que permita mejorar sus habilidades comunicativas y/o ampliar sus conocimientos sobre la lengua, la sociedad y la cultura del país al que pertenecen.
-                                Este programa consta de dos modalidades: <br>
-                                    Tándem: participan dos personas que realizan intercambio lingüístico durante un tiempo determinado por ellos mismos y de forma periódica. En la guía de uso de esta actividad  puedes ver cómo funciona. </p>
 
-
-                    
                 </div>
                 
                 <!-- END Page Content -->

@@ -16,7 +16,7 @@
                 <!-- END Mobile Navigation -->
 
                 <!-- Logo -->
-                <a href="index.html" class="navbar-brand"><img src="assets/img/logo/logo.png" alt="logo"></a>
+                <a href="index.php" class="navbar-brand"><img src="assets/img/logo/logo.png" alt="logo"></a>
 
                 <!-- Loading Indicator, Used for demostrating how loading of widgets could happen, check main.js - uiDemo() -->
                 <div id="loading" class="pull-left"><i class="fa fa-certificate fa-spin"></i></div>
@@ -151,7 +151,7 @@
 
                     <!-- User Menu -->
                     <li class="dropdown pull-right dropdown-user">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><img src="img/template/avatar.png" alt="avatar"> <b class="caret"></b></a>
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><img src="<?php echo obtener_imagen_usuario(); ?> "width="30" height="30"  alt="avatar" class="img-circle"> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <!-- Just a button demostrating how loading of widgets could happen, check main.js- - uiDemo() -->
                             <li>
@@ -160,12 +160,12 @@
                             <li class="divider"></li>
                             <li>
                                 <!-- Modal div is at the bottom of the page before including javascript code -->
-                                <a href="#modal-user-settings" role="button" data-toggle="modal"><i class="fa fa-user"></i> Perfil de usuario</a>
+                                <a href="profile_config.php" ><i class="fa fa-user"></i> Perfil de usuario</a>
                             </li>
-                            
+                                                        
                             <li class="divider"></li>
                             <li>
-                                <a href="page_login.html"><i class="fa fa-lock"></i> Salir</a>
+                                <a href="close_session.php"><i class="fa fa-lock"></i> Salir</a>
                             </li>
                         </ul>
                     </li>

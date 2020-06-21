@@ -1,5 +1,7 @@
 
 <?php
+
+require_once "includes/conection.php";
 //se prepara variable para guardar posibles mensajes de respuesta
 $msg="";
 
@@ -39,22 +41,13 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
     $msg.="La clave debe tener al menos 8 caracteres <br>";
 
   }else{
-    //momento de conectarnos a db
-
-    $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
-
-
-    //verificamos si hay algun problema con la conexion
-    if ($mysqli==false){
-      echo "Hubo un problema al conectarse a María DB";
-      die();
-    }
+    $_SESSION['error_password'] = "error con la longitud de password";
+  }
     $ip = $_SERVER['REMOTE_ADDR'];
 
     //aquí como todo estuvo OK, resta controlar que no exista previamente el mail ingresado en la tabla users.
-    $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' ");
+        $resultado = $db->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' ");
     $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
-
 
     //cuento cuantos elementos tiene $tabla,
     $cantidad = count($usuarios);
@@ -64,18 +57,8 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
       $password = sha1($password); //encriptar clave con sha1
 
 
-    //   $nombre="luis";
-    //   $uvus="luis123";
-    //   $email="luis@gmail.com";
-    //   $password="456";
-    //   $repite_password="45666";
-
-    // echo "$nombre, $uvus, $email, $password, $ip";
-
-
-    $mysqli->query("INSERT INTO `usuarios` (`usuarios_nombre`,`usuarios_uvus`,`usuarios_email`, `usuarios_password`, `usuarios_ip`, `usuarios_imagen`) VALUES ('".$nombre."','".$uvus."','".$email."', '".$password."', '".$ip."', '');");
+    $db->query("INSERT INTO `usuarios` (`usuarios_nombre`,`usuarios_uvus`,`usuarios_email`, `usuarios_password`, `usuarios_ip`, `usuarios_imagen`) VALUES ('".$nombre."','".$uvus."','".$email."', '".$password."', '".$ip."', '');");
     //   $mysqli->query("INSERT INTO `prueba` (`prueba_nombre`,`prueba_uvus`,`prueba_email`,`prueba_ip`,`prueba_password`,`prueba_imagen`) VALUES ('".$nombre."', '".$uvus."', '".$email."', '".$ip."', '".$password."', '');");
-      echo "insertados";
       $msg.="Usuario creado correctamente, ingrese haciendo  <b><a href='login.php'>clic aquí</a></b> <br>";
       
       $nombre="";

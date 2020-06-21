@@ -16,7 +16,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     $password= sha1(strip_tags($_POST['password']));
 
     $mysqli = mysqli_connect("localhost","admin_solucian","121212","admin_intercambio_linguistico");
-    
+
     if ($mysqli==false){
       echo "Hubo un problema al conectarse a María DB";
       die();
@@ -25,15 +25,8 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' AND  `usuarios_password` = '".$password."' ");
     $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
 
-
     //cargo datos del usuario en variables de sesión
-
-
-    $_SESSION['usuarios_nombre'] = $usuarios[0]['usuarios_nombre'];
-    $_SESSION['usuarios_uvus'] = $usuarios[0]['usuarios_uvus'];
-    $_SESSION['usuarios_id'] = $usuarios[0]['usuarios_id'];
-    $_SESSION['usuarios_email'] = $usuarios[0]['usuarios_email'];
-    $_SESSION['usuarios_ultimo_login'] = $usuarios[0]['usuarios_ultimo_login'];
+    
 
     //cuento cuantos elementos tiene $tabla,
     $cantidad = count($usuarios);
@@ -41,13 +34,22 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     if ($cantidad == 1){
       $hoy = date ( "Y-m-d H:i:s" );//para poner el time de ultimo login
       $resultado = $mysqli->query("UPDATE `usuarios` SET `usuarios_ultimo_login` = '".$hoy."' WHERE `usuarios_email` =  '".$email."' ");
-      $msg .= "Exito!!!";
+      $msg .= "Bienvenido " . $_SESSION['usuarios_nombre'];
       $_SESSION['autorizado'] = true;
+      $_SESSION['usuarios'] = $usuarios;
+
+      $_SESSION['usuarios_nombre'] = $usuarios[0]['usuarios_nombre'];
+      $_SESSION['usuarios_uvus'] = $usuarios[0]['usuarios_uvus'];
+      $_SESSION['usuarios_id'] = $usuarios[0]['usuarios_id'];
+      $_SESSION['usuarios_email'] = $usuarios[0]['usuarios_email'];
+      $_SESSION['usuarios_ultimo_login'] = $usuarios[0]['usuarios_ultimo_login'];
+
       //redirigimos a la pagina del dashboard principal
       echo '<meta http-equiv="refresh" content="1; url=principal.php">';
     }else{
       $msg .= "Acceso denegado!!!";
       $_SESSION['autorizado'] = false;
+
     }//end else
   }//end else
 }//end if(isset....)
@@ -105,9 +107,13 @@ require_once('includes/header.php');
                                                 <button class="default-btn" type="submit"><span>Iniciar sesion</span></button>
 
                                             </div>
+
+
+
                                             <div style="color:red">
                                               <?php echo $msg; ?>
                                             </div>
+
                                         </form>
                                     </div>
                                 </div>

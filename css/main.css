@@ -1532,6 +1532,13 @@ h1, h2, h3 {
     text-align: left !important;
 }
 
+.mostrar {
+    display: none;
+}
+ .fantasma {
+    visibility: hidden;
+ }
+
 .text-right {
     text-align: right !important;
 }
@@ -1790,6 +1797,9 @@ a.thumbnail-borderless {
 .img-responsive {
     display: inline-block;
 }
+.img-circle {
+    border-radius: 50%;
+  }
 
 /* Tooltip */
 .tooltip {
