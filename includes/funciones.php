@@ -8,6 +8,15 @@ if ($mysqli==false){
 }
 
 
+function graba_idioma_preferencias($idioma, $string_dias_horarios){
+  //traemos la conexión (global) a un ambito local (dentro de la función);
+  $mysqli = $GLOBALS['mysqli'];
+
+  $mysqli->query("INSERT INTO `disponibilidad` (`disponibilidad_usuario_id`,`disponibilidad_preferencias`,`disponibilidad_idioma`) VALUES (".$_SESSION['usuarios_id'].",'".$string_dias_horarios."','".$idioma."');");
+  return $msg = "Preferencias guardadas";
+}
+
+
 
 
 
