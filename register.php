@@ -70,7 +70,7 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
       $msg.="El mail ingresado ya existe <br>";
     }
   }
-}
+
 
  ?>
 

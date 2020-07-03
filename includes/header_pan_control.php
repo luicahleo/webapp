@@ -151,7 +151,17 @@
 
                     <!-- User Menu -->
                     <li class="dropdown pull-right dropdown-user">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><img src="<?php echo obtener_imagen_usuario(); ?> "width="30" height="30"  alt="avatar" class="img-circle"> <b class="caret"></b></a>
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><img src="<?php echo obtener_imagen_usuario(); ?> "width="30" height="30"  alt="avatar" class="img-circle">   
+                        
+                        <?php if(isset($_SESSION['autorizado']) == true): ?>
+
+                            <strong><?= $_SESSION['usuarios_nombre'];?></strong>
+                            
+
+                        <?php endif; ?>
+
+
+                        <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <!-- Just a button demostrating how loading of widgets could happen, check main.js- - uiDemo() -->
                             <li>

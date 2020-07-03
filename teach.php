@@ -1,4 +1,8 @@
+
+
 <?php
+echo "// DEBUG: ";
+
 require_once('includes/conection.php');
 
 $autorizado = $_SESSION['autorizado'];
@@ -31,6 +35,8 @@ if (isset($_POST)) {
 
     echo '<br>';
     var_dump($_POST);
+    count($_POST);
+    //die();
     echo '<br>';
 
     var_dump($idioma);
@@ -38,7 +44,7 @@ if (isset($_POST)) {
 
     //validamos los dias
 
-    if (count($_POST) != 1) {
+    if (count($_POST) != 1 && !empty($_POST)) {
 
         if ($lunes) {
             $dia = 'lunes';
@@ -153,15 +159,18 @@ require_once('includes/head_pan_control.php');
                         </div>
                         <div class="form-group">
 
+
+
+
+
                             <p class="well">Recuerde que las etiquetas <code>Manana</code> o <code>Tarde</code> se refieren a horarios academicos</p>
-                            <label class="control-label col-md-2">Dias y turnos</label>
                             <div class="col-md-10">
 
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th class="hidden-xs hidden-sm text-left"><i class="fa fa-calendar"></i> Dia</th>
-                                            <th class="hidden-xs hidden-sm text-left"><i class="fa fa-sun-o"></i> 09:00 - 12:00</th>
+                                            <th class="cell-small text-center" data-toggle="tooltip" title="Toggle all!"><i class="fa fa-calendar"></i> Dia</th>
+                                            <th class="text-left" data-toggle="tooltip" "fa fa-sun-o"></i> 09:00 - 12:00</th>
                                             <th class="hidden-xs hidden-sm text-left"><i class="fa fa-sun-o"></i> 12:00 - 15:00</th>
                                             <th class="hidden-xs hidden-sm text-left"><i class="fa fa-moon-o"></i> 15:00 - 18:00</th>
                                             <th class="hidden-xs hidden-sm text-left"><i class="fa fa-moon-o"></i> 18:00 - 21:00</th>
@@ -172,21 +181,21 @@ require_once('includes/head_pan_control.php');
                                         <tr>
 
                                             <td class="text-left"><label><input type="checkbox" name="check-monday[]" id="check-monday[]" onchange="showContent('check-monday[]');" value="monday"> Lunes <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            
+
                                             <td class=" text-left"><label><input type="checkbox" name="check-monday[]" value="nine">
-                                                            <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
+                                                            <Div class="fantasma"> Mi texto oculto </ div> </label> </td>
                                             <td class=" text-left"><label><input type="checkbox" name="check-monday[]" value="twelve">
                                                                     <Div class="fantasma""> Mi texto oculto </ div></label> </td>
                                             <td class=" text-left"><label><input type="checkbox" name="check-monday[]" value="fifteen">
                                                                             <Div class="fantasma""> Mi texto oculto </ div></label> </td>
                                             <td class=" text-left"><label><input type="checkbox" name="check-monday[]" value="eighteen">
                                                                                     <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                             
 
-                                            
-                                           
+
+
+
                                         </tr>
-                                       
+
                                         <tr>
                                             <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" id="check-tuesday[]" onchange="showContent('check-tuesday[]');" value="tuesday"> Martes <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
                                             <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" value="nine">
@@ -199,7 +208,7 @@ require_once('includes/head_pan_control.php');
                                                                                                                             <Div class="fantasma""> Mi texto oculto </ div></label> </td>
 
                                         </tr>
-                                       
+
                                         <tr>
                                             <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" id="check-wednesday[]" onchange="showContent('check-wednesday[]');" value="wednesday"> Miercoles <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
                                             <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" value="nine">
@@ -261,37 +270,219 @@ require_once('includes/head_pan_control.php');
 
                                         </tr> -->
                                         </tbody>
-                                </table>   
+                                </table>
 
                                 </div>
                             </div>
-                            
+
                             <div class=" form-group form-actions">
-                                <div class="col-md-10 col-md-offset-2">
-                                    <button type="reset" class="btn btn-danger"><i class="fa fa-repeat"></i> Borrar</button>
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
-                                    <div style="color: red">
-                                        <?php
-                                        if ($msg != "") {
-                                            echo $mensaje_seleccionar . " " . $msg . '<br>';
-                                        }
-                                        if ($msg2 != "") {
-                                            echo $msg2 . '<br>';
-                                            # code...
-                                        }
-                                        if ($msg3 != "") {
-                                            echo $msg3 . '<br>';
-                                            # code...
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
+                                                                                                                                                                                                                                                                                                                                        <div class="col-md-10 col-md-offset-2">
+                                                                                                                                                                                                                                                                                                                                            <button type="reset" class="btn btn-danger"><i class="fa fa-repeat"></i> Borrar</button>
+                                                                                                                                                                                                                                                                                                                                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                                                                                                                                                                                                                                                                                                                                            <div style="color: red">
+                                                                                                                                                                                                                                                                                                                                                <?php
+                                                                                                                                                                                                                                                                                                                                                if ($msg != "") {
+                                                                                                                                                                                                                                                                                                                                                    echo $mensaje_seleccionar . " " . $msg . '<br>';
+                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                if ($msg2 != "") {
+                                                                                                                                                                                                                                                                                                                                                    echo $msg2 . '<br>';
+                                                                                                                                                                                                                                                                                                                                                    # code...
+                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                if ($msg3 != "") {
+                                                                                                                                                                                                                                                                                                                                                    echo $msg3 . '<br>';
+                                                                                                                                                                                                                                                                                                                                                    # code...
+                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                ?>
+                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                        </div>
 
-                            </div>
-                    </div>
-                    <!-- END Form Content -->
+                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                            <!-- END Form Content -->
                 </form>
                 <!-- END Form Teach language -->
+
+
+
+                <!-- Datatables in the grid -->
+                <h3 class="page-header">Datatables <small>In the grid</small></h3>
+
+                <div class="row">
+                    <div class="col-md-6 push">
+                        <table id="example-datatables2" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th><i class="fa fa-user"></i> Username</th>
+                                    <th><i class="fa fa-bolt"></i> Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td><a href="javascript:void(0)">username1</a></td>
+                                    <td><span class="label label-default">Inactive</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td><a href="javascript:void(0)">username2</a></td>
+                                    <td><span class="label label-inverse">Spam Account</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td><a href="javascript:void(0)">username3</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td><a href="javascript:void(0)">username4</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td><a href="javascript:void(0)">username5</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">6</td>
+                                    <td><a href="javascript:void(0)">username6</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">7</td>
+                                    <td><a href="javascript:void(0)">username7</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">8</td>
+                                    <td><a href="javascript:void(0)">username8</a></td>
+                                    <td><span class="label label-success">Approved!</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">9</td>
+                                    <td><a href="javascript:void(0)">username9</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">10</td>
+                                    <td><a href="javascript:void(0)">username10</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">11</td>
+                                    <td><a href="javascript:void(0)">username11</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">12</td>
+                                    <td><a href="javascript:void(0)">username12</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">13</td>
+                                    <td><a href="javascript:void(0)">username13</a></td>
+                                    <td><span class="label label-success">Approved!</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">14</td>
+                                    <td><a href="javascript:void(0)">username14</a></td>
+                                    <td><span class="label label-inverse">Spam Account</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">15</td>
+                                    <td><a href="javascript:void(0)">username15</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">16</td>
+                                    <td><a href="javascript:void(0)">username16</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">17</td>
+                                    <td><a href="javascript:void(0)">username17</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">18</td>
+                                    <td><a href="javascript:void(0)">username18</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">19</td>
+                                    <td><a href="javascript:void(0)">username19</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">20</td>
+                                    <td><a href="javascript:void(0)">username20</a></td>
+                                    <td><span class="label label-inverse">Spam Account</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">21</td>
+                                    <td><a href="javascript:void(0)">username21</a></td>
+                                    <td><span class="label label-info">Manual Approval</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">22</td>
+                                    <td><a href="javascript:void(0)">username22</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">23</td>
+                                    <td><a href="javascript:void(0)">username23</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">24</td>
+                                    <td><a href="javascript:void(0)">username24</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">25</td>
+                                    <td><a href="javascript:void(0)">username25</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">26</td>
+                                    <td><a href="javascript:void(0)">username26</a></td>
+                                    <td><span class="label label-default">Inactive</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">27</td>
+                                    <td><a href="javascript:void(0)">username27</a></td>
+                                    <td><span class="label label-default">Inactive</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">28</td>
+                                    <td><a href="javascript:void(0)">username28</a></td>
+                                    <td><span class="label label-default">Inactive</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">29</td>
+                                    <td><a href="javascript:void(0)">username29</a></td>
+                                    <td><span class="label label-warning">Pending..</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">30</td>
+                                    <td><a href="javascript:void(0)">username30</a></td>
+                                    <td><span class="label label-danger">Unapproved</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- END Datatables in the grid -->
+
+
+
+
+
+
+
+
+
 
 
             </div>
