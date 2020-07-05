@@ -1,4 +1,6 @@
+
 <?php
+echo "pruebas";
 require_once('includes/head.php');
 ?>
 
