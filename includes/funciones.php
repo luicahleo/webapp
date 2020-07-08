@@ -12,8 +12,20 @@ function graba_idioma_preferencias($idioma, $string_dias_horarios){
   //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
 
-  $mysqli->query("INSERT INTO `disponibilidad` (`disponibilidad_usuario_id`,`disponibilidad_preferencias`,`disponibilidad_idioma`) VALUES (".$_SESSION['usuarios_id'].",'".$string_dias_horarios."','".$idioma."');");
-  return $msg = "Preferencias guardadas";
+  //preguntamos si existe alguna otra preferencia antes guardada
+  $consulta = "SELECT `disponibilidad_usuario_id` FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuarios_id']."'";
+  $resultado = $mysqli->query($consulta);
+  $fila = $resultado->fetch_assoc();
+
+  if($fila == null){
+    $mysqli->query("INSERT INTO `disponibilidad` (`disponibilidad_usuario_id`,`disponibilidad_preferencias`,`disponibilidad_idioma`) VALUES (".$_SESSION['usuarios_id'].",'".$string_dias_horarios."','".$idioma."');");
+    return $msg = "Preferencias guardadas";
+  }else{
+
+    $mysqli->query("UPDATE `disponibilidad` SET `disponibilidad_preferencias`= '".$string_dias_horarios."' , `disponibilidad_idioma`= '".$idioma."' WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuarios_id']."' ");
+
+    return $msg = "Preferencias actualizadas";
+  }
 }
 
 
@@ -81,40 +93,35 @@ function graba_imagen($archivo){
 
 }
 
-
-function save_teach_data($data_teach){
+function verifica_preferencia(){
+  //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
 
-  $msg = "";
+  //preguntamos si existe alguna otra preferencia antes guardada
+  $consulta = "SELECT disponibilidad_idioma, disponibilidad_preferencias FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuarios_id']."'";
+  $resultado = $mysqli->query($consulta);
+  $fila = $resultado->fetch_assoc();
 
-  echo "<pre>";
-  print_r($data_teach);
-  //die();
-  echo "</pre>";
-
-  foreach ($data_teach as $data => $value) {
-    
-    echo $data . " ". $value . "<br>";
-
-    $language = $_POST['select-language'];
-    
-    
-    
-
-    echo "$language ";
-
-    //$mysqli->query("UPDATE `teach` SET `teach_language`= '".$target_file."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
-
-
-
-
+  //$cantidad = count($fila);
+  $array_vacio = ['vacio'=>'vacio'];
+  if (!empty($fila)){
+    return $fila;
+  }else{
+    return $array_vacio;
   }
 
 
 
 
 
+
+
+
+
 }
+
+
+
 /* para crear un usuario nuevo con clave para podernos conectar desde el exterior
 GRANT ALL PRIVILEGES ON *.* TO 'USERNAME'@'%' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
 */

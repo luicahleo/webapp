@@ -15,27 +15,27 @@ $msg2 = "";
 
 
 //recibimos post de formulario de seteos para ensenar
-if ($_POST){
-  $data_teach = $_POST;
-  $msg = save_teach_data($data_teach);
-}
+//if ($_POST){
+//  $data_teach = $_POST;
+//  $msg = save_teach_data($data_teach);
+//}
 
 //recibimos post de formulario cambio de clave
-if( isset($_POST['new-password']) && isset($_POST['retry-new-password'])) {
-
-    $password = strip_tags($_POST['new-password']);
-    $repite_password = strip_tags($_POST['retry-new-password']);
-  
-    if ($password != $repite_password){
-      $msg2.="Las claves no coinciden <br>";
-    }else if (strlen($password)<8){
-      $msg2.="La clave debe tener al menos 8 caracteres <br>";
-    }else{
-      $password = sha1($password);
-      $mysqli->query("UPDATE `usuarios` SET `usuarios_password`= '".$password."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
-      $msg2.="La clave ha sido actualizada correctamente <br>";
-    }
-  }  
+//if( isset($_POST['new-password']) && isset($_POST['retry-new-password'])) {
+//
+//    $password = strip_tags($_POST['new-password']);
+//    $repite_password = strip_tags($_POST['retry-new-password']);
+//
+//    if ($password != $repite_password){
+//      $msg2.="Las claves no coinciden <br>";
+//    }else if (strlen($password)<8){
+//      $msg2.="La clave debe tener al menos 8 caracteres <br>";
+//    }else{
+//      $password = sha1($password);
+//      $mysqli->query("UPDATE `usuarios` SET `usuarios_password`= '".$password."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
+//      $msg2.="La clave ha sido actualizada correctamente <br>";
+//    }
+//  }
 
 
 

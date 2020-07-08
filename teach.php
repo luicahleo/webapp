@@ -10,12 +10,15 @@ if ($autorizado == false) {
     echo '<meta http-equiv="refresh" content="0; url=login.php">';
     die();
 }
-
 require_once('includes/funciones.php');
-
 $msg = "";
 $msg2 = "";
 $msg3 = "";
+$msg4 = "";
+$array_disponibilidad_verificado = array();
+$array_disponibilidad_verificado_separado = '';
+$disponibilidad_idioma = "";
+$disponibilidad_preferencias = '';
 
 $mensaje_seleccionar = "Tiene que seleccionar al menos un horario en ";
 $string_idioma_dias = "";
@@ -24,24 +27,13 @@ $string_dias_horarios = "";
 $array_lunes = array();
 $array_martes = array();
 
-if (isset($_POST)) {
-
+if (!empty($_POST)) {
     $idioma = $_POST['select-language'];
     $lunes = isset($_POST['check-monday']) ? $_POST['check-monday'] : false;
     $martes = isset($_POST['check-tuesday']) ? $_POST['check-tuesday'] : false;
     $miercoles = isset($_POST['check-wednesday']) ? $_POST['check-wednesday'] : false;
 
-    echo '<br>';
-    var_dump($_POST);
-    count($_POST);
-    //die();
-    echo '<br>';
-
-    var_dump($idioma);
-    echo '<br>';
-
     //validamos los dias
-
     if (count($_POST) != 1 && !empty($_POST)) {
 
         if ($lunes) {
@@ -80,8 +72,6 @@ if (isset($_POST)) {
 
         //quitamos el ultimo caracter
         $string_dias_horarios = substr($string_dias_horarios, 0, -1);
-        echo '</br>';
-        var_dump($string_dias_horarios);
 
         $msg3 = graba_idioma_preferencias($idioma, $string_dias_horarios);
     } else {
@@ -89,14 +79,36 @@ if (isset($_POST)) {
     }
 }
 
+//Hacemos la consulta si ya tiene preferencias e idioma en la BD para llenar en la tabla
 
-//este codigo es para separar la respuesta de la consulta
-// $solo_idioma = explode("*",$string_idioma_dias);
-// echo '<br>';
-// echo '<br>';
-// echo '<br>';
-// echo 'debug:';
-// var_dump($solo_idioma);
+$array_disponibilidad_verificado = verifica_preferencia();
+if(!empty($array_disponibilidad_verificado['vacio'])) {
+    $msg4 = "no hay preferencias";
+}else{
+    $disponibilidad_idioma = $array_disponibilidad_verificado['disponibilidad_idioma'];
+    $disponibilidad_preferencias = $array_disponibilidad_verificado['disponibilidad_preferencias'];
+}
+
+//ahora separamos el array
+//$disponibilidad_idioma = $array_disponibilidad_verificado['disponibilidad_idioma'];
+//echo $disponibilidad_idioma;
+//echo '<br>';
+
+
+
+
+//$disponibilidad_preferencias = $array_disponibilidad_verificado['disponibilidad_preferencias'];
+//echo $disponibilidad_preferencias;
+//$disponibilidad_idioma => $array_disponibilidad_verificado[0];
+//echo implode($array_disponibilidad_verificado[0]);
+
+//$disponibilidad_preferencias = $array_disponibilidad_verificado[1];
+//$array_disponibilidad_verificado_separado = implode()
+
+
+
+
+
 
 ?>
 
@@ -312,15 +324,18 @@ require_once('includes/head_pan_control.php');
                         <table id="example-datatables2" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-left"> <i class="fa fa-language"></i>Idioma</th>
+                                    <th class="text-left"> <i class="fa fa-language"></i> Idioma</th>
                                     <th class="text-left"> <i class="fa fa-calendar"></i> Dia</th>
                                     <th class="text-left"> <i class="fa fa-clock-o"></i> Horarios</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center"><?= $idioma; ?></td>
-                                    <td class="text-center"> <?= $_SESSION['usuarios_nombre']; ?> </td>
+                                    <td class="text-center"><?php if(isset($disponibilidad_idioma)): echo $disponibilidad_idioma;
+                                                                    endif; ?>
+                                    </td>
+                                    <td class="text-center"> <?php if(isset($disponibilidad_preferencias)): echo $disponibilidad_preferencias;
+                                    endif; ?> </td>
                                     <td class="text-center"> </td>
                                 </tr>
 

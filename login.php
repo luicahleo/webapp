@@ -34,7 +34,6 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     if ($cantidad == 1){
       $hoy = date ( "Y-m-d H:i:s" );//para poner el time de ultimo login
       $resultado = $mysqli->query("UPDATE `usuarios` SET `usuarios_ultimo_login` = '".$hoy."' WHERE `usuarios_email` =  '".$email."' ");
-      $msg .= "Bienvenido " . $_SESSION['usuarios_nombre'];
       $_SESSION['autorizado'] = true;
       $_SESSION['usuarios'] = $usuarios;
 
@@ -43,6 +42,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
       $_SESSION['usuarios_id'] = $usuarios[0]['usuarios_id'];
       $_SESSION['usuarios_email'] = $usuarios[0]['usuarios_email'];
       $_SESSION['usuarios_ultimo_login'] = $usuarios[0]['usuarios_ultimo_login'];
+      $msg .= "Bienvenido " . $_SESSION['usuarios_nombre'];
 
       //redirigimos a la pagina del dashboard principal
       echo '<meta http-equiv="refresh" content="1; url=principal.php">';
