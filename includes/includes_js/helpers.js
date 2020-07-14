@@ -65,13 +65,17 @@ function showContent(dia) {
 
 window.addEventListener("load", function() {
 
+    //ocultamos los select de los horarios
     var ocultar = true;
-    var inputs = document.getElementsByTagName('input');
-    for (let index = 1; index < inputs.length; index++) {
-        if(index != 5 && index != 10 && index != 15 && index != 20 && index != 25 && index != 30 ){
-            inputs[index].style.display = 'none';    
+    var select = document.getElementsByTagName('select');
+    for (let index = 1; index < select.length; index++) {
 
-        }        
+        select[index].style.display = 'none';
+
+        // if(index == 1 || index == 2 || index == 3){
+        //     select[index].style.display = 'none';
+        //
+        // }
     }
 	
 });

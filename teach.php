@@ -11,6 +11,10 @@ if ($autorizado == false) {
     die();
 }
 require_once('includes/funciones.php');
+//este es el formato hay que hay que llegar {"idioma":"espanol", "dia":{"martes":["9:00","12:00"], "miercoles":["18:00"]}}
+
+
+
 $msg = "";
 $msg2 = "";
 $msg3 = "";
@@ -28,21 +32,20 @@ $array_lunes = array();
 $array_martes = array();
 
 if (!empty($_POST)) {
-    $idioma = $_POST['select-language'];
-    $lunes = isset($_POST['check-monday']) ? $_POST['check-monday'] : false;
-    $martes = isset($_POST['check-tuesday']) ? $_POST['check-tuesday'] : false;
-    $miercoles = isset($_POST['check-wednesday']) ? $_POST['check-wednesday'] : false;
+    $idioma = $_POST['selecciona_idioma'];
+    $lunes = isset($_POST['check_lunes']) ? $_POST['check_lunes'] : false;
+    $martes = isset($_POST['check_martes']) ? $_POST['check_martes'] : false;
+    $miercoles = isset($_POST['check_miercoles']) ? $_POST['check_miercoles'] : false;
 
     //validamos los dias
     if (count($_POST) != 1 && !empty($_POST)) {
 
         if ($lunes) {
             $dia = 'lunes';
-            // var_dump($lunes);
             if (count($lunes) != 1) {
                 $string_dias_horarios .= implode(",", $lunes) . "-";
                 echo '<br>';
-                // var_dump($string_dias_horarios);
+                $lunes_formateado = '';
             } else {
                 $msg .= " " . $dia;
             }
@@ -53,7 +56,6 @@ if (!empty($_POST)) {
             if (count($martes) != 1) {
                 $string_dias_horarios .= implode(",", $martes) . "-";
                 echo '<br>';
-                // var_dump($string_dias_horarios);
             } else {
                 $msg .= " " . $dia;
             }
@@ -64,7 +66,6 @@ if (!empty($_POST)) {
             if (count($miercoles) != 1) {
                 $string_dias_horarios .= implode(",", $miercoles) . "-";
                 echo '<br>';
-                // var_dump($string_dias_horarios);
             } else {
                 $msg .= " " . $dia;
             }
@@ -80,36 +81,32 @@ if (!empty($_POST)) {
 }
 
 //Hacemos la consulta si ya tiene preferencias e idioma en la BD para llenar en la tabla
-
-$array_disponibilidad_verificado = verifica_preferencia();
+/*$array_disponibilidad_verificado = verifica_preferencia();
 if(!empty($array_disponibilidad_verificado['vacio'])) {
     $msg4 = "no hay preferencias";
 }else{
     $disponibilidad_idioma = $array_disponibilidad_verificado['disponibilidad_idioma'];
     $disponibilidad_preferencias = $array_disponibilidad_verificado['disponibilidad_preferencias'];
-}
+    //dividimos la cadena
+    $cadena_dias= '';
+    $cadena_horarios = '';
+    $cadena_dias = explode('-',$disponibilidad_preferencias);
+    for ($i=0;$i<count($cadena_dias);$i++){
+        //sepramos el dia de las horas de la cadena que analizamos
+        $separa_dia = explode(',',$cadena_dias[$i]);
+        //nos quedamos con el indice0 porque sabemos que ese es el dia
+        for ($j=0;j<count($separa_dia);$j++){
+            if ($j==0){
+                $dia_separado = $separa_dia[0];
+            }else{
+                $horario_separado = explode(',',$separa_dia[$j]);
 
-//ahora separamos el array
-//$disponibilidad_idioma = $array_disponibilidad_verificado['disponibilidad_idioma'];
-//echo $disponibilidad_idioma;
-//echo '<br>';
+            }
+        }
 
+    }*/
 
-
-
-//$disponibilidad_preferencias = $array_disponibilidad_verificado['disponibilidad_preferencias'];
-//echo $disponibilidad_preferencias;
-//$disponibilidad_idioma => $array_disponibilidad_verificado[0];
-//echo implode($array_disponibilidad_verificado[0]);
-
-//$disponibilidad_preferencias = $array_disponibilidad_verificado[1];
-//$array_disponibilidad_verificado_separado = implode()
-
-
-
-
-
-
+//}
 ?>
 
 <?php
@@ -154,9 +151,9 @@ require_once('includes/head_pan_control.php');
                     <div class="form-box-content">
 
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="select-language">Idioma</label>
+                            <label class="control-label col-md-2" for="selecciona_idioma">Idioma</label>
                             <div class="col-md-2">
-                                <select id="select-language" name="select-language" class="form-control">
+                                <select id="selecciona_idioma" name="selecciona_idioma" class="form-control">
                                     <option>espanol</option>
                                     <option>ingles</option>
                                     <option>frances</option>
@@ -169,118 +166,197 @@ require_once('includes/head_pan_control.php');
                         </div>
                         <div class="form-group">
 
-
-
-
-
-                            <p class="well">Recuerde que las etiquetas <code>Manana</code> o <code>Tarde</code> se refieren a horarios academicos</p>
                             <div class="col-md-10">
 
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th class="text-left"><i class="fa fa-calendar"></i> Dia</th>
-                                            <th class="text-left"><i class="fa fa-sun-o"></i> 09:00 - 12:00</th>
-                                            <th class="text-left"><i class="fa fa-sun-o"></i> 12:00 - 15:00</th>
-                                            <th class="text-left"><i class="fa fa-moon-o"></i> 15:00 - 18:00</th>
-                                            <th class="text-left"><i class="fa fa-moon-o"></i> 18:00 - 21:00</th>
+                                            <th class="text-sm-left"><i class="fa fa-sun-o"></i> Manana</th>
+                                            <th class="text-sm-left"><i class="fa fa-moon-o"></i> Tarde</th>
+
+
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
 
-                                            <td class="text-left"><label><input type="checkbox" name="check-monday[]" id="check-monday[]" 
-                                                onchange="showContent('check-monday[]');" value="monday"> 
-                                                Lunes <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
+                                            <td class="text-left"><label><input type="checkbox" name="check_lunes[]" id="check_lunes[]" onchange="showContent('check_lunes[]');" value="lunes:"> Lunes <Div class="fantasma""> Mi texto oculto </ div>  </label>
+                                            </td>
 
-                                            <td class=" text-left"><label><input type="checkbox" name="check-monday[]" 
-                                                value="nine"> <Div class="fantasma"> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-monday[]" 
-                                                value="twelve"> <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-monday[]" 
-                                                value="fifteen"> <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-monday[]" 
-                                                value="eighteen"> <Div class="fantasma""> Mi texto oculto </ div></label> </td>
+                                            <td class=" text-left">
+<!--                                                <input type="time" name="check_lunes[]" step="3600" min="08:00" max="14:00"> hasta-->
+<!--                                                <input type="time" name="check_lunes[]" step="3600" min="14:00" max="22:00">-->
+                                                <select name="check_lunes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="08:00">08:00 h.</option>
+                                                    <option value="09:00">09:00 h.</option>
+                                                    <option value="10:00">10:00 h.</option>
+                                                    <option value="11:00">11:00 h.</option>
+                                                    <option value="12:00">12:00 h.</option>
+                                                    <option value="13:00">13:00 h.</option>
+
+                                                </select>
+                                                <select name="check_lunes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="09:00">09:00 h.</option>
+                                                    <option value="10:00">10:00 h.</option>
+                                                    <option value="11:00">11:00 h.</option>
+                                                    <option value="12:00">12:00 h.</option>
+                                                    <option value="13:00">13:00 h.</option>
+                                                    <option value="14:00">14:00 h.</option>
 
 
+                                                </select>
+                                            </td>
+                                            <td class=" text-left">
+                                                <!--                                                <input type="time" name="check_lunes[]" step="3600" min="08:00" max="14:00"> hasta-->
+                                                <!--                                                <input type="time" name="check_lunes[]" step="3600" min="14:00" max="22:00">-->
+
+                                                <select name="check_lunes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="14:00">14:00 h.</option>
+                                                    <option value="15:00">15:00 h.</option>
+                                                    <option value="16:00">16:00 h.</option>
+                                                    <option value="17:00">17:00 h.</option>
+                                                    <option value="18:00">18:00 h.</option>
+                                                    <option value="19:00">19:00 h.</option>
+                                                    <option value="20:00">20:00 h.</option>
+                                                    <option value="21:00">21:00 h.</option>
+
+                                                </select>
+                                                <select name="check_lunes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="15:00">15:00 h.</option>
+                                                    <option value="16:00">16:00 h.</option>
+                                                    <option value="17:00">17:00 h.</option>
+                                                    <option value="18:00">18:00 h.</option>
+                                                    <option value="19:00">19:00 h.</option>
+                                                    <option value="20:00">20:00 h.</option>
+                                                    <option value="21:00">21:00 h.</option>
+                                                    <option value="22:00">22:00 h.</option>
 
 
-                                        </tr>
-
-                                        <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" id="check-tuesday[]" onchange="showContent('check-tuesday[]');" value="tuesday"> Martes <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" value="nine">
-                                                                                    <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" value="twelve">
-                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" value="fifteen">
-                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-tuesday[]" value="eighteen">
-                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" id="check-wednesday[]" onchange="showContent('check-wednesday[]');" value="wednesday"> Miercoles <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" value="nine">
-                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" value="twelve">
-                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" value="fifteen">
-                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-wednesday[]" value="eighteen">
-                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-
-                                        </tr>
-                                        <!-- <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-thursday[]" id="check-thursday[]" onchange="showContent('check-thursday[]');" value="thursday"> Jueves <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-thursday[]" value="nine">
-                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-thursday[]" value="twelve">
-                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-thursday[]" value="fifteen">
-                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-thursday[]" value="eighteen">
-                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-friday[]" id="check-friday[]" onchange="showContent('check-friday[]');" value="friday"> Viernes <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-friday[]" value="nine">
-                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-friday[]" value="twelve">
-                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-friday[]" value="fifteen">
-                                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-friday[]" value="eighteen">
-                                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
+                                                </select>
+                                            </td>
 
                                         </tr>
                                         <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-saturday[]" id="check-saturday[]" onchange="showContent('check-saturday[]');" value="saturday"> Sabado <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-saturday[]" value="nine">
-                                                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-saturday[]" value="twelve">
-                                                                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-saturday[]" value="fifteen">
-                                                                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-saturday[]" value="eighteen">
-                                                                                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
+                                            <td class="text-left"><label><input type="checkbox" name="check_martes[]" id="check_martes[]" onchange="showContent('check_martes[]');" value="martes:"> Martes <Div class="fantasma""> Mi texto oculto </div>  </label>
+                                            </td>
 
-                                        </tr>
+                                            <td class=" text-left">
+
+                                                <select name="check_martes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="08:00">08:00 h.</option>
+                                                    <option value="09:00">09:00 h.</option>
+                                                    <option value="10:00">10:00 h.</option>
+                                                    <option value="11:00">11:00 h.</option>
+                                                    <option value="12:00">12:00 h.</option>
+                                                    <option value="13:00">13:00 h.</option>
+
+                                                </select>
+                                                <select name="check_martes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="09:00">09:00 h.</option>
+                                                    <option value="10:00">10:00 h.</option>
+                                                    <option value="11:00">11:00 h.</option>
+                                                    <option value="12:00">12:00 h.</option>
+                                                    <option value="13:00">13:00 h.</option>
+                                                    <option value="14:00">14:00 h.</option>
+
+
+                                                </select>
+                                            </td>
+                                            <td class=" text-left">
+
+                                                <select name="check_martes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="14:00">14:00 h.</option>
+                                                    <option value="15:00">15:00 h.</option>
+                                                    <option value="16:00">16:00 h.</option>
+                                                    <option value="17:00">17:00 h.</option>
+                                                    <option value="18:00">18:00 h.</option>
+                                                    <option value="19:00">19:00 h.</option>
+                                                    <option value="20:00">20:00 h.</option>
+                                                    <option value="21:00">21:00 h.</option>
+
+                                                </select>
+                                                <select name="check_martes[]" class="form-control">
+                                                    <option value="no_horario">--:-- - --:-- </option>
+                                                    <option value="15:00">15:00 h.</option>
+                                                    <option value="16:00">16:00 h.</option>
+                                                    <option value="17:00">17:00 h.</option>
+                                                    <option value="18:00">18:00 h.</option>
+                                                    <option value="19:00">19:00 h.</option>
+                                                    <option value="20:00">20:00 h.</option>
+                                                    <option value="21:00">21:00 h.</option>
+                                                    <option value="22:00">22:00 h.</option>
+
+
+                                                </select>
+                                            </td>
+                            </tr>
                                         <tr>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-sunday[]" id="check-sunday[]" onchange="showContent('check-sunday[]');" value="sunday"> Domingo <Div class="fantasma""> Mi texto oculto </ div>  </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-sunday[]" value="nine">
-                                                                                                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div> </label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-sunday[]" value="twelve">
-                                                                                                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-sunday[]" value="fifteen">
-                                                                                                                                                                                                                                                                                                            <Div class="fantasma""> Mi texto oculto </ div></label> </td>
-                                            <td class=" text-left"><label><input type="checkbox" name="check-sunday[]" value="eighteen">
-                                                                                                                                                                                                                                                                                                                    <Div class="fantasma""> Mi texto oculto </ div></label> </td>
+                                <td class="text-left"><label><input type="checkbox" name="check_miercoles[]" id="check_miercoles[]" onchange="showContent('check_miercoles[]');" value="miercoles:"> Miercoles <Div class="fantasma""> Mi texto oculto </div>  </label>
+                                </td>
 
-                                        </tr> -->
+                                <td class=" text-left">
+                                    <select name="check_miercoles[]" class="form-control">
+                                        <option value="no_horario">--:-- - --:-- </option>
+                                        <option value="08:00">08:00 h.</option>
+                                        <option value="09:00">09:00 h.</option>
+                                        <option value="10:00">10:00 h.</option>
+                                        <option value="11:00">11:00 h.</option>
+                                        <option value="12:00">12:00 h.</option>
+                                        <option value="13:00">13:00 h.</option>
+
+                                    </select>
+                                    <select name="check_miercoles[]" class="form-control">
+                                        <option value="no_horario">--:-- - --:-- </option>
+                                        <option value="09:00">09:00 h.</option>
+                                        <option value="10:00">10:00 h.</option>
+                                        <option value="11:00">11:00 h.</option>
+                                        <option value="12:00">12:00 h.</option>
+                                        <option value="13:00">13:00 h.</option>
+                                        <option value="14:00">14:00 h.</option>
+
+
+                                    </select>
+                                </td>
+                                <td class=" text-left">
+                                    <!--                                                <input type="time" name="check_lunes[]" step="3600" min="08:00" max="14:00"> hasta-->
+                                    <!--                                                <input type="time" name="check_lunes[]" step="3600" min="14:00" max="22:00">-->
+
+                                    <select name="check_miercoles[]" class="form-control">
+                                        <option value="no_horario">--:-- - --:-- </option>
+                                        <option value="14:00">14:00 h.</option>
+                                        <option value="15:00">15:00 h.</option>
+                                        <option value="16:00">16:00 h.</option>
+                                        <option value="17:00">17:00 h.</option>
+                                        <option value="18:00">18:00 h.</option>
+                                        <option value="19:00">19:00 h.</option>
+                                        <option value="20:00">20:00 h.</option>
+                                        <option value="21:00">21:00 h.</option>
+
+                                    </select>
+                                    <select name="check_miercoles[]" class="form-control">
+                                        <option value="no_horario">--:-- - --:-- </option>
+                                        <option value="15:00">15:00 h.</option>
+                                        <option value="16:00">16:00 h.</option>
+                                        <option value="17:00">17:00 h.</option>
+                                        <option value="18:00">18:00 h.</option>
+                                        <option value="19:00">19:00 h.</option>
+                                        <option value="20:00">20:00 h.</option>
+                                        <option value="21:00">21:00 h.</option>
+                                        <option value="22:00">22:00 h.</option>
+
+
+                                    </select>                                            </td>
+                        </tr>
+
                                         </tbody>
                                 </table>
 
