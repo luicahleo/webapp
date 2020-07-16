@@ -41,7 +41,8 @@ if (!empty($_POST)) {
             $contador++;
         }
     }
-
+    //quitamos el ultimo caracter
+    $string_resultado = substr($string_resultado, 0, -1);
 
 
 //    $nuevo_martes = array();
