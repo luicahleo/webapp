@@ -8,9 +8,6 @@ if ($mysqli==false){
 }
 
 
-
-
-
 function obtener_imagen_usuario(){
   //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
@@ -72,39 +69,25 @@ function graba_imagen($archivo){
 
 }
 
-
-function save_teach_data($data_teach){
-  $mysqli = $GLOBALS['mysqli'];
-
-  $msg = "";
-
-  echo "<pre>";
-  print_r($data_teach);
-  //die();
-  echo "</pre>";
-
-  foreach ($data_teach as $data => $value) {
-    
-    echo $data . " ". $value . "<br>";
-
-    $language = $_POST['select-language'];
-    
-    
-    
-
-    echo "$language ";
-
-    //$mysqli->query("UPDATE `teach` SET `teach_language`= '".$target_file."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
-
+function separa_horarios($nuevo_dia){
+  $nuevo_dia_separado = array();
+  $cadena_para_bd = '';
+  //separamos el array
+  for ($i=0;$i<count($nuevo_dia);$i++){
+    if ($nuevo_dia[$i]!='no_horario'){
+      array_push($nuevo_dia_separado,$nuevo_dia[$i]);
+    }
+  }
+  if (count($nuevo_dia_separado)>1){
+    $clave = array_shift($nuevo_dia_separado);
+    //$prueba = json_encode($nuevo_dia_separado);
+    $string_horarios = implode("," , $nuevo_dia_separado);
+    $cadena_para_bd = $clave . ":" . $string_horarios;
 
 
 
   }
-
-
-
-
-
+  return $cadena_para_bd;
 }
 /* para crear un usuario nuevo con clave para podernos conectar desde el exterior
 GRANT ALL PRIVILEGES ON *.* TO 'USERNAME'@'%' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
