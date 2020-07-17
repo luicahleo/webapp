@@ -138,7 +138,11 @@ function verifica_preferencia(){
 
 }
 
+function borra_preferencias(){
 
+  echo "estas en borrar";
+
+}
 
 /* para crear un usuario nuevo con clave para podernos conectar desde el exterior
 GRANT ALL PRIVILEGES ON *.* TO 'USERNAME'@'%' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;

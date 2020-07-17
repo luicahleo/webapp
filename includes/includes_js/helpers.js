@@ -1,6 +1,6 @@
 "use strict";
 
-function showContent(dia, id_label) {
+function showContent(dia) {
 
     var names = document.getElementsByName(dia);
     var check = document.getElementById(dia);
@@ -19,42 +19,60 @@ function showContent(dia, id_label) {
 function validacion() {
 
     var no_error = true;
-    var mensaje_turno = '';
+    var no_manana = true;
+    var no_tarde = true;
     var dia = document.getElementsByTagName("select");
+    var checkbox = document.getElementsByTagName("input");
     var names;
-    for (let index = 1; index < dia.length; index = index + 4) {
-        names = dia[index].name;
 
-        var select_dia = document.getElementsByName(names);
-        var select_dia_manana_primero = parseInt(select_dia[2].value);
-        var select_dia_manana_segundo = parseInt(select_dia[3].value);
-        var select_dia_tarde_primero = parseInt(select_dia[4].value);
-        var select_dia_tarde_segundo = parseInt(select_dia[5].value);
+    //preguntamos si esta checkado
+    for (let i=0; i<checkbox.length; i++){
+        if (checkbox[i].checked){
+            //este for es para validar cada dia de la semana
+           // for (let index = 1; index < dia.length; index = index + 4) {
+                //names = dia[index].name;
+                names = checkbox[i].name;
+                var select_dia = document.getElementsByName(names);
+                //var dia_check = document.getElementById(select_dia[0].id);
+                var select_dia_manana_primero = parseInt(select_dia[2].value);
+                var select_dia_manana_segundo = parseInt(select_dia[3].value);
+                var select_dia_tarde_primero = parseInt(select_dia[4].value);
+                var select_dia_tarde_segundo = parseInt(select_dia[5].value);
 
-        if (!isNaN(select_dia_manana_primero) && !isNaN(select_dia_manana_segundo)) {
-            if (select_dia_manana_primero > select_dia_manana_segundo || select_dia_manana_primero == select_dia_manana_segundo) {
-                no_error = false;
-            }
-        } else if (!isNaN(select_dia_manana_primero) && isNaN(select_dia_manana_segundo)) {
-            no_error = false;
-        } else if (isNaN(select_dia_manana_primero) && !isNaN(select_dia_manana_segundo)) {
-            no_error = false;
-        } else if (isNaN(select_dia_manana_primero) && isNaN(select_dia_manana_segundo)) {
-            mensaje_turno = "manana vacio";
-        }
+                //si son numeros entra
+                if (!isNaN(select_dia_manana_primero) && !isNaN(select_dia_manana_segundo)) {
+                    if (select_dia_manana_primero > select_dia_manana_segundo || select_dia_manana_primero == select_dia_manana_segundo) {
+                        no_error = false;
+                    }
+                } else if (!isNaN(select_dia_manana_primero) && isNaN(select_dia_manana_segundo)) {
+                    no_error = false;
+                } else if (isNaN(select_dia_manana_primero) && !isNaN(select_dia_manana_segundo)) {
+                    no_error = false;
+                } else if (isNaN(select_dia_manana_primero) && isNaN(select_dia_manana_segundo)) {
+                    no_manana = false;
+                }
 
-        if (!isNaN(select_dia_tarde_primero) && !isNaN(select_dia_tarde_segundo)) {
-            if (select_dia_tarde_primero > select_dia_tarde_segundo || select_dia_tarde_primero == select_dia_tarde_segundo) {
-                no_error = false;
-            }
-        } else if (!isNaN(select_dia_tarde_primero) && isNaN(select_dia_tarde_segundo)) {
-            no_error = false;
-        } else if (isNaN(select_dia_tarde_primero) && !isNaN(select_dia_tarde_segundo)) {
-            no_error = false;
-        } else if (isNaN(select_dia_tarde_primero) && isNaN(select_dia_tarde_segundo)) {
-            mensaje_turno = "tarde vacio";
+                //si son numero entra
+                if (!isNaN(select_dia_tarde_primero) && !isNaN(select_dia_tarde_segundo)) {
+                    if (select_dia_tarde_primero > select_dia_tarde_segundo || select_dia_tarde_primero == select_dia_tarde_segundo) {
+                        no_error = false;
+                    }
+                } else if (!isNaN(select_dia_tarde_primero) && isNaN(select_dia_tarde_segundo)) {
+                    no_error = false;
+                } else if (isNaN(select_dia_tarde_primero) && !isNaN(select_dia_tarde_segundo)) {
+                    no_error = false;
+                } else if (isNaN(select_dia_tarde_primero) && isNaN(select_dia_tarde_segundo)) {
+                    no_tarde = false;
+                }
+
+                if (!no_manana && !no_tarde){
+                    no_error = false;
+                }
+
+            //}
         }
     }
+
     if (no_error) {
         return no_error;
     } else {
@@ -63,6 +81,8 @@ function validacion() {
     }
 
 }
+
+
 
 // function toJson() {
 //     var formulario = $('#form_validation');
@@ -152,7 +172,7 @@ window.addEventListener("load", function () {
     //ocultamos los select de los horarios
     var ocultar = true;
     var select = document.getElementsByTagName('select');
-    for (let index = 1; index < select.length; index++) {
+    for (var index = 1; index < select.length; index++) {
 
         select[index].style.display = 'none';
 

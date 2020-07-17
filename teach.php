@@ -211,6 +211,8 @@ require_once('includes/head_pan_control.php');
                   onsubmit="return validacion()">
                 <!-- Form Header -->
                 <h4 class="form-box-header">Idioma para ensenar </h4>
+                <br>
+                <h6><b><u> Instrucciones:</u> </b> <i>seleccione dia y hora y presione </i><code> Guardar</code></h6><h6><i>Si desea cambiar las preferencias, simplemente vuelva a repetir el paso anterior</i></h6>
 
                 <!-- Form Content -->
                 <div class="form-box-content">
@@ -491,18 +493,24 @@ require_once('includes/head_pan_control.php');
                     <td class="text-center"><?php if (isset($disponibilidad_idioma)): echo $disponibilidad_idioma;
                         endif; ?>
                     </td>
-                    <td class="text-center"> <?php if (isset($nuevo_array)):
+                    <td class="text-center"> <?php if (isset($nuevo_array)){
 
                             for ($i = 0; $i < count($nuevo_array); $i++) {
                                 echo $nuevo_array[$i] . '<br>';
                             }
 
-                        endif; ?> </td>
-                    <td class="text-center"></td>
+                        }else{
+                        $msg = "no hay preferencias de dias y horas guardadas";
+                        echo $msg;
+                        } ?>
+                    </td>
                 </tr>
-
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-6 push">
+            <br>
+            <button type="button" class="btn btn-danger" onclick="<?php borra_preferencias();?>"><i class="fa fa-trash"></i> Borrar</button>
         </div>
 
     </div>
