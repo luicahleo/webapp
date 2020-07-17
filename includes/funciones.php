@@ -29,9 +29,6 @@ function graba_idioma_preferencias($idioma, $string_dias_horarios){
 }
 
 
-
-
-
 function obtener_imagen_usuario(){
   //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
@@ -93,6 +90,27 @@ function graba_imagen($archivo){
 
 }
 
+function separa_horarios($nuevo_dia){
+  $nuevo_dia_separado = array();
+  $cadena_para_bd = '';
+  //separamos el array
+  for ($i=0;$i<count($nuevo_dia);$i++){
+    if ($nuevo_dia[$i]!='no_horario'){
+      array_push($nuevo_dia_separado,$nuevo_dia[$i]);
+    }
+  }
+  if (count($nuevo_dia_separado)>1){
+    $clave = array_shift($nuevo_dia_separado);
+    $string_horarios = implode("," , $nuevo_dia_separado);
+    $cadena_para_bd = $clave . ": " . $string_horarios;
+
+
+
+  }
+  return $cadena_para_bd;
+}
+
+
 function verifica_preferencia(){
   //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
@@ -103,7 +121,7 @@ function verifica_preferencia(){
   $fila = $resultado->fetch_assoc();
 
   //$cantidad = count($fila);
-  $array_vacio = ['vacio'=>'vacio'];
+  $array_vacio = 'vacio';
   if (!empty($fila)){
     return $fila;
   }else{

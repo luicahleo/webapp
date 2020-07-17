@@ -22,7 +22,7 @@ function validacion() {
     var mensaje_turno = '';
     var dia = document.getElementsByTagName("select");
     var names;
-    for (let index = 1; index < dia.length; index = index+4) {
+    for (let index = 1; index < dia.length; index = index + 4) {
         names = dia[index].name;
 
         var select_dia = document.getElementsByName(names);
@@ -55,15 +55,41 @@ function validacion() {
             mensaje_turno = "tarde vacio";
         }
     }
-    if(no_error){
+    if (no_error) {
         return no_error;
-    }else {
+    } else {
         alert("Error: corrija los horarios");
         return no_error;
     }
 
 }
 
+// function toJson() {
+//     var formulario = $('#form_validation');
+//     formulario.click(function(e) {
+//         e.preventDefault();
+//         var jsonData=$(this).serializeArray()
+//             .reduce(function(a, z) { a[z.name] = z.value; return a; }, {});
+//         console.log(jsonData);
+//     });
+// }
+
+
+// function toJson() {
+//     var myForm = document.getElementById('form_validation');
+//     myForm.addEventListener('submit', function (event) {
+//         event.preventDefault();
+//         var formData = new FormData(myForm),
+//             result = {};
+//
+//         for (var entry of formData.entries()) {
+//             result[entry[0]] = entry[1];
+//         }
+//         result = JSON.stringify(result)
+//         console.log(result);
+//
+//     });
+// }
 
 /* codigo para crear elemento
 var nuevo_parrafo = document.createElement("p");
@@ -136,7 +162,7 @@ window.addEventListener("load", function () {
         // }
     }
 
-    console.log(document.getElementById("form_validation").innerHTML);
+    //console.log(document.getElementById("form_validation").innerHTML);
 
 
 });

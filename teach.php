@@ -10,7 +10,7 @@ if ($autorizado == false) {
     echo '<meta http-equiv="refresh" content="0; url=login.php">';
     die();
 }
-require_once('funciones.php');
+require_once('includes/funciones.php');
 //este es el formato hay que hay que llegar {"idioma":"espanol", "dia":{"martes":["9:00","12:00"], "miercoles":["18:00"]}}
 
 
@@ -18,8 +18,6 @@ $msg = "";
 $msg2 = "";
 $msg3 = "";
 $msg4 = "";
-$disponibilidad_idioma = "";
-$disponibilidad_preferencias = '';
 
 $mensaje_seleccionar = "Tiene que seleccionar al menos un horario en ";
 $string_idioma_dias = "";
@@ -32,17 +30,64 @@ if (!empty($_POST)) {
     $martes = isset($_POST['check_martes']) ? $_POST['check_martes'] : false;
     $miercoles = isset($_POST['check_miercoles']) ? $_POST['check_miercoles'] : false;
 
-    $array_dias = array($lunes,$martes,$miercoles);
-    $string_resultado= "";
+    $array_dias = array($lunes, $martes, $miercoles);
+    $string_resultado = "";
     $contador = 0;
-    for ($i = 0; $i<count($array_dias); $i++ ){
-        if(separa_horarios($array_dias[$i])!=''){
+    for ($i = 0; $i < count($array_dias); $i++) {
+        if (separa_horarios($array_dias[$i]) != '') {
             $string_resultado .= separa_horarios($array_dias[$i]) . "-";
             $contador++;
         }
     }
     //quitamos el ultimo caracter
     $string_resultado = substr($string_resultado, 0, -1);
+
+    $msg = graba_idioma_preferencias($idioma, $string_resultado);
+
+}
+
+/*********************************************/
+/****Tabla muestra Horarios seleccionados*****/
+/*********************************************/
+//recuperamos las preferencias de BD, pero preguntamos si existe ya un valor insertado
+
+$disponibilidad_idioma = "";
+$disponibilidad_preferencias = '';
+$resultado_disponibilidad = verifica_preferencia();
+
+if ($resultado_disponibilidad != 'vacio') {
+    $disponibilidad_idioma = $resultado_disponibilidad['disponibilidad_idioma'];
+    $disponibilidad_preferencias = $resultado_disponibilidad['disponibilidad_preferencias'];
+    $dias_horarios = '';
+    $solo_dias = '';
+    $solo_horarios = '';
+    $nuevo_array = array();
+//ahora le damos formato a preferencias para mostrar en la tabla
+    $dias_horarios = explode('-', $disponibilidad_preferencias);
+    $array_resultado_final = array();
+//recorremos cada valor para cambiarle el ',' por el caracter ' a ' para que se vea mejor
+    for ($i = 0; $i < count($dias_horarios); $i++) {
+        $prueba = explode(',', $dias_horarios[$i]);
+        if (count($prueba) > 2) {
+            //reemplazamos el el segundo ',' por el caracter 'y'
+            $nuevo_array[$i] = str_replace(', ', ' y ', $dias_horarios[$i]);
+
+            $nuevo_array[$i] = str_replace(',', ' a ', $nuevo_array[$i]);
+
+            $array_resultado_final[$i] = $nuevo_array[$i];
+
+        } else {
+            $nuevo_array[$i] = str_replace(',', ' a ', $dias_horarios[$i]);
+
+        }
+
+    }
+}else{
+    $msg2 = "no hay preferencias guardadas";
+}
+
+
+/*********************************************/
 
 
 //    $nuevo_martes = array();
@@ -59,7 +104,7 @@ if (!empty($_POST)) {
 //            array_push($nuevo_miercoles,$miercoles[$i]);
 //        }
 //    }
-    //validamos los dias
+//validamos los dias
 //    if (count($nuevo_lunes) > 1 ) {
 //        $dia = 'lunes';
 //            if (count($lunes) != 1) {
@@ -125,12 +170,13 @@ if(!empty($array_disponibilidad_verificado['vacio'])) {
 
     }*/
 
-}
+
 ?>
 
 <?php
 require_once('includes/head_pan_control.php');
 ?>
+<script type="text/javascript" src="includes/includes_js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="includes/includes_js/helpers.js"></script>
 
 <body>
@@ -161,7 +207,8 @@ require_once('includes/head_pan_control.php');
 
 
             <!-- Form Teach language -->
-            <form id="form_validation" action="teach.php" method="post" class="form-horizontal form-box remove-margin" onsubmit="return validacion()">
+            <form id="form_validation" action="teach.php" method="post" class="form-horizontal form-box remove-margin"
+                  onsubmit="return validacion()">
                 <!-- Form Header -->
                 <h4 class="form-box-header">Idioma para ensenar </h4>
 
@@ -199,10 +246,13 @@ require_once('includes/head_pan_control.php');
                                 <tbody>
                                 <tr>
 
-                                    <td class="text-left"><label id="label_lunes"><input type="checkbox" name="check_lunes[]"
-                                                                        id="check_lunes[]"
-                                                                        onchange="showContent('check_lunes[]');"
-                                                                        value="lunes"> Lunes  <Div id="id_fantasma" class="fantasma"> Mi texto oculto </div>  </label>
+                                    <td class="text-left"><label id="label_lunes"><input type="checkbox"
+                                                                                         name="check_lunes[]"
+                                                                                         id="check_lunes[]"
+                                                                                         onchange="showContent('check_lunes[]');"
+                                                                                         value="lunes"> Lunes
+                                            <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
+                                        </label>
                                         <p name="check_lunes[]" style="display:none; color:red">Seleccione horario</p>
                                     </td>
 
@@ -230,16 +280,16 @@ require_once('includes/head_pan_control.php');
                                         </select>
                                     </td>
                                     <td class=" text-left">
-                                       <select name="check_lunes[]" class="form-control">
+                                        <select name="check_lunes[]" class="form-control">
                                             <option value="no_horario">--:-- - --:--</option>
-                                            <option value="14">14:00 h.</option>
-                                            <option value="15">15:00 h.</option>
-                                            <option value="16">16:00 h.</option>
-                                            <option value="17">17:00 h.</option>
-                                            <option value="18">18:00 h.</option>
-                                            <option value="19">19:00 h.</option>
-                                            <option value="20">20:00 h.</option>
-                                            <option value="21">21:00 h.</option>
+                                            <option value=" 14">14:00 h.</option>
+                                            <option value=" 15">15:00 h.</option>
+                                            <option value=" 16">16:00 h.</option>
+                                            <option value=" 17">17:00 h.</option>
+                                            <option value=" 18">18:00 h.</option>
+                                            <option value=" 19">19:00 h.</option>
+                                            <option value=" 20">20:00 h.</option>
+                                            <option value=" 21">21:00 h.</option>
 
                                         </select>
                                         <select name="check_lunes[]" class="form-control">
@@ -297,14 +347,14 @@ require_once('includes/head_pan_control.php');
                         <td class=" text-left">
                             <select name="check_martes[]" class="form-control">
                                 <option value="no_horario">--:-- - --:--</option>
-                                <option value="14">14:00 h.</option>
-                                <option value="15">15:00 h.</option>
-                                <option value="16">16:00 h.</option>
-                                <option value="17">17:00 h.</option>
-                                <option value="18">18:00 h.</option>
-                                <option value="19">19:00 h.</option>
-                                <option value="20">20:00 h.</option>
-                                <option value="21">21:00 h.</option>
+                                <option value=" 14">14:00 h.</option>
+                                <option value=" 15">15:00 h.</option>
+                                <option value=" 16">16:00 h.</option>
+                                <option value=" 17">17:00 h.</option>
+                                <option value=" 18">18:00 h.</option>
+                                <option value=" 19">19:00 h.</option>
+                                <option value=" 20">20:00 h.</option>
+                                <option value=" 21">21:00 h.</option>
 
                             </select>
                             <select name="check_martes[]" class="form-control">
@@ -361,14 +411,14 @@ require_once('includes/head_pan_control.php');
                     <td class=" text-left">
                         <select name="check_miercoles[]" class="form-control">
                             <option value="no_horario">--:-- - --:--</option>
-                            <option value="14">14:00 h.</option>
-                            <option value="15">15:00 h.</option>
-                            <option value="16">16:00 h.</option>
-                            <option value="17">17:00 h.</option>
-                            <option value="18">18:00 h.</option>
-                            <option value="19">19:00 h.</option>
-                            <option value="20">20:00 h.</option>
-                            <option value="21">21:00 h.</option>
+                            <option value=" 14">14:00 h.</option>
+                            <option value=" 15">15:00 h.</option>
+                            <option value=" 16">16:00 h.</option>
+                            <option value=" 17">17:00 h.</option>
+                            <option value=" 18">18:00 h.</option>
+                            <option value=" 19">19:00 h.</option>
+                            <option value=" 20">20:00 h.</option>
+                            <option value=" 21">21:00 h.</option>
 
                         </select>
                         <select name="check_miercoles[]" class="form-control">
@@ -399,17 +449,20 @@ require_once('includes/head_pan_control.php');
                 <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                 <div style="color: red">
                     <?php
-                    if ($msg != "") {
-                        echo $mensaje_seleccionar . " " . $msg . '<br>';
+                    //                    if ($msg != "") {
+                    //                        echo $mensaje_seleccionar . " " . $msg . '<br>';
+                    //                    }
+                    if ($msg != '') {
+                        echo 'preferencias grabadas';
                     }
-                    if ($msg2 != "") {
-                        echo $msg2 . '<br>';
-                        # code...
-                    }
-                    if ($msg3 != "") {
-                        echo $msg3 . '<br>';
-                        # code...
-                    }
+                    //                    if ($msg2 != "") {
+                    //                        echo $msg2 . '<br>';
+                    //                        # code...
+                    //                    }
+                    //                    if ($msg3 != "") {
+                    //                        echo $msg3 . '<br>';
+                    //                        # code...
+                    //                    }
                     ?>
                 </div>
             </div>
@@ -430,8 +483,7 @@ require_once('includes/head_pan_control.php');
                 <thead>
                 <tr>
                     <th class="text-left"><i class="fa fa-language"></i> Idioma</th>
-                    <th class="text-left"><i class="fa fa-calendar"></i> Dia</th>
-                    <th class="text-left"><i class="fa fa-clock-o"></i> Horarios</th>
+                    <th class="text-left"><i class="fa fa-calendar"></i> Dia y Horarios</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -439,7 +491,12 @@ require_once('includes/head_pan_control.php');
                     <td class="text-center"><?php if (isset($disponibilidad_idioma)): echo $disponibilidad_idioma;
                         endif; ?>
                     </td>
-                    <td class="text-center"> <?php if (isset($disponibilidad_preferencias)): echo $disponibilidad_preferencias;
+                    <td class="text-center"> <?php if (isset($nuevo_array)):
+
+                            for ($i = 0; $i < count($nuevo_array); $i++) {
+                                echo $nuevo_array[$i] . '<br>';
+                            }
+
                         endif; ?> </td>
                     <td class="text-center"></td>
                 </tr>
