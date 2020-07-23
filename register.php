@@ -46,7 +46,7 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
     $ip = $_SERVER['REMOTE_ADDR'];
 
     //aquí como todo estuvo OK, resta controlar que no exista previamente el mail ingresado en la tabla users.
-        $resultado = $db->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' ");
+        $resultado = $db->query("SELECT * FROM `usuario` WHERE `usuario_email` = '".$email."' ");
     $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
 
     //cuento cuantos elementos tiene $tabla,
@@ -57,7 +57,7 @@ if( isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retry-p
       $password = sha1($password); //encriptar clave con sha1
 
 
-    $db->query("INSERT INTO `usuarios` (`usuarios_nombre`,`usuarios_uvus`,`usuarios_email`, `usuarios_password`, `usuarios_ip`, `usuarios_imagen`) VALUES ('".$nombre."','".$uvus."','".$email."', '".$password."', '".$ip."', '');");
+    $db->query("INSERT INTO `usuario` (`usuario_nombre`,`usuario_uvus`,`usuario_email`, `usuario_password`, `usuario_ip`, `usuario_imagen`) VALUES ('".$nombre."','".$uvus."','".$email."', '".$password."', '".$ip."', '');");
     //   $mysqli->query("INSERT INTO `prueba` (`prueba_nombre`,`prueba_uvus`,`prueba_email`,`prueba_ip`,`prueba_password`,`prueba_imagen`) VALUES ('".$nombre."', '".$uvus."', '".$email."', '".$ip."', '".$password."', '');");
       $msg.="Usuario creado correctamente, ingrese haciendo  <b><a href='login.php'>clic aquí</a></b> <br>";
       

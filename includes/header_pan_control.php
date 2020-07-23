@@ -155,7 +155,7 @@
                         
                         <?php if(isset($_SESSION['autorizado']) == true): ?>
 
-                            <strong><?= $_SESSION['usuarios_nombre'];?></strong>
+                            <strong><?= $_SESSION['usuario_nombre'];?></strong>
                             
 
                         <?php endif; ?>

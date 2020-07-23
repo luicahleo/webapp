@@ -26,9 +26,23 @@ $string_dias_horarios = "";
 
 if (!empty($_POST)) {
     $idioma = $_POST['selecciona_idioma'];
-    $lunes = isset($_POST['check_lunes']) ? $_POST['check_lunes'] : false;
-    $martes = isset($_POST['check_martes']) ? $_POST['check_martes'] : false;
-    $miercoles = isset($_POST['check_miercoles']) ? $_POST['check_miercoles'] : false;
+    $lunes = isset($_POST['lunes_dia']) ? $_POST['lunes_dia'] : false;
+    $lunes_manana = isset($_POST['lunes_manana']) ? $_POST['lunes_manana'] : false;
+    $lunes_tarde = isset($_POST['lunes_tarde']) ? $_POST['lunes_tarde'] : false;
+
+    $martes = isset($_POST['martes_dia']) ? $_POST['martes_dia'] : false;
+    $martes_manana = isset($_POST['martes_manana']) ? $_POST['martes_manana'] : false;
+    $martes_tarde = isset($_POST['martes_tarde']) ? $_POST['martes_tarde'] : false;
+
+    $miercoles = isset($_POST['miercoles_dia']) ? $_POST['miercoles_dia'] : false;
+    $miercoles_manana = isset($_POST['miercoles_manana']) ? $_POST['miercoles_manana'] : false;
+    $miercoles_tarde = isset($_POST['miercoles_tarde']) ? $_POST['miercoles_tarde'] : false;
+
+
+
+
+
+
 
     $array_dias = array($lunes, $martes, $miercoles);
     $string_resultado = "";
@@ -210,7 +224,7 @@ require_once('includes/head_pan_control.php');
             <form id="form_validation" action="teach.php" method="post" class="form-horizontal form-box remove-margin"
                   onsubmit="return validacion()">
                 <!-- Form Header -->
-                <h4 class="form-box-header">Idioma para ensenar </h4>
+                <h4 class="form-box-header">Idioma que ofreces </h4>
                 <br>
                 <h6><b><u> Instrucciones:</u> </b> <i>seleccione dia y hora y presione </i><code> Guardar</code></h6><h6><i>Si desea cambiar las preferencias, simplemente vuelva a repetir el paso anterior</i></h6>
 
@@ -249,17 +263,17 @@ require_once('includes/head_pan_control.php');
                                 <tr>
 
                                     <td class="text-left"><label id="label_lunes"><input type="checkbox"
-                                                                                         name="check_lunes[]"
-                                                                                         id="check_lunes[]"
-                                                                                         onchange="showContent('check_lunes[]');"
+                                                                                         name="lunes_dia"
+                                                                                         id="lunes_dia"
+                                                                                         onchange="showContent_manana('lunes_dia','lunes_manana[]'); showContent_tarde('lunes_dia','lunes_tarde[]')"
                                                                                          value="lunes"> Lunes
                                             <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
                                         </label>
-                                        <p name="check_lunes[]" style="display:none; color:red">Seleccione horario</p>
+                                        <p name="lunes_dia[]" style="display:none; color:red">Seleccione horario</p>
                                     </td>
 
                                     <td class=" text-left">
-                                        <select name="check_lunes[]" class="form-control">
+                                        <select name="lunes_manana[]" class="form-control">
                                             <option value="no_horario">--:-- - --:--</option>
                                             <option value="8">08:00 h.</option>
                                             <option value="9">09:00 h.</option>
@@ -269,7 +283,7 @@ require_once('includes/head_pan_control.php');
                                             <option value="13">13:00 h.</option>
 
                                         </select>
-                                        <select name="check_lunes[]" class="form-control">
+                                        <select name="lunes_manana[]" class="form-control">
                                             <option value="no_horario">--:-- - --:--</option>
                                             <option value="9">09:00 h.</option>
                                             <option value="10">10:00 h.</option>
@@ -282,19 +296,19 @@ require_once('includes/head_pan_control.php');
                                         </select>
                                     </td>
                                     <td class=" text-left">
-                                        <select name="check_lunes[]" class="form-control">
+                                        <select name="lunes_tarde[]" class="form-control">
                                             <option value="no_horario">--:-- - --:--</option>
-                                            <option value=" 14">14:00 h.</option>
-                                            <option value=" 15">15:00 h.</option>
-                                            <option value=" 16">16:00 h.</option>
-                                            <option value=" 17">17:00 h.</option>
-                                            <option value=" 18">18:00 h.</option>
-                                            <option value=" 19">19:00 h.</option>
-                                            <option value=" 20">20:00 h.</option>
-                                            <option value=" 21">21:00 h.</option>
+                                            <option value="14">14:00 h.</option>
+                                            <option value="15">15:00 h.</option>
+                                            <option value="16">16:00 h.</option>
+                                            <option value="17">17:00 h.</option>
+                                            <option value="18">18:00 h.</option>
+                                            <option value="19">19:00 h.</option>
+                                            <option value="20">20:00 h.</option>
+                                            <option value="21">21:00 h.</option>
 
                                         </select>
-                                        <select name="check_lunes[]" class="form-control">
+                                        <select name="lunes_tarde[]" class="form-control">
                                             <option value="no_horario">--:-- - --:--</option>
                                             <option value="15">15:00 h.</option>
                                             <option value="16">16:00 h.</option>
@@ -311,20 +325,18 @@ require_once('includes/head_pan_control.php');
 
                                 </tr>
                                 <tr>
-                                    <td class="text-left"><label><input type="checkbox" name="check_martes[]"
-                                                                        id="check_martes[]"
-                                                                        onchange="showContent('check_martes[]');"
-                                                                        value="martes"> Martes
-                                            <Div class="fantasma"
-                                            "> Mi texto oculto
-                        </div>
-                        </label>
-                        <p name="check_martes[]" style="display:none; color:red">Seleccione horario</p>
-
-                        </td>
+                                    <td class="text-left"><label id="label_martes"><input type="checkbox"
+                                                                                         name="martes_dia"
+                                                                                         id="martes_dia"
+                                                                                         onchange="showContent_manana('martes_dia','martes_manana[]'); showContent_tarde('martes_dia','martes_tarde[]')"
+                                                                                         value="martes"> Martes
+                                            <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
+                                        </label>
+                                        <p name="martes_dia[]" style="display:none; color:red">Seleccione horario</p>
+                                    </td>
 
                         <td class=" text-left">
-                            <select name="check_martes[]" class="form-control">
+                            <select name="martes_manana[]" class="form-control">
                                 <option value="no_horario">--:-- - --:--</option>
                                 <option value="8">08:00 h.</option>
                                 <option value="9">09:00 h.</option>
@@ -334,7 +346,7 @@ require_once('includes/head_pan_control.php');
                                 <option value="13">13:00 h.</option>
 
                             </select>
-                            <select name="check_martes[]" class="form-control">
+                            <select name="martes_manana[]" class="form-control">
                                 <option value="no_horario">--:-- - --:--</option>
                                 <option value="9">09:00 h.</option>
                                 <option value="10">10:00 h.</option>
@@ -347,19 +359,19 @@ require_once('includes/head_pan_control.php');
                             </select>
                         </td>
                         <td class=" text-left">
-                            <select name="check_martes[]" class="form-control">
+                            <select name="martes_tarde[]" class="form-control">
                                 <option value="no_horario">--:-- - --:--</option>
-                                <option value=" 14">14:00 h.</option>
-                                <option value=" 15">15:00 h.</option>
-                                <option value=" 16">16:00 h.</option>
-                                <option value=" 17">17:00 h.</option>
-                                <option value=" 18">18:00 h.</option>
-                                <option value=" 19">19:00 h.</option>
-                                <option value=" 20">20:00 h.</option>
-                                <option value=" 21">21:00 h.</option>
+                                <option value="14">14:00 h.</option>
+                                <option value="15">15:00 h.</option>
+                                <option value="16">16:00 h.</option>
+                                <option value="17">17:00 h.</option>
+                                <option value="18">18:00 h.</option>
+                                <option value="19">19:00 h.</option>
+                                <option value="20">20:00 h.</option>
+                                <option value="21">21:00 h.</option>
 
                             </select>
-                            <select name="check_martes[]" class="form-control">
+                            <select name="martes_tarde[]" class="form-control">
                                 <option value="no_horario">--:-- - --:--</option>
                                 <option value="15">15:00 h.</option>
                                 <option value="16">16:00 h.</option>
@@ -374,70 +386,70 @@ require_once('includes/head_pan_control.php');
                             </select>
                         </td>
                         </tr>
-                        <tr>
-                            <td class="text-left"><label><input type="checkbox" name="check_miercoles[]"
-                                                                id="check_miercoles[]"
-                                                                onchange="showContent('check_miercoles[]');"
-                                                                value="miercoles"> Miercoles
-                                    <Div class="fantasma"
-                                    "> Mi texto oculto
-                    </div>
-                    </label>
-                    <p name="check_miercoles[]" style="display:none; color:red">Seleccione horario</p>
+                                <tr>
 
-                    </td>
+                                    <td class="text-left"><label id="label_miercoles"><input type="checkbox"
+                                                                                         name="miercoles_dia"
+                                                                                         id="miercoles_dia"
+                                                                                         onchange="showContent_manana('miercoles_dia','miercoles_manana[]'); showContent_tarde('miercoles_dia','miercoles_tarde[]')"
+                                                                                         value="lunes"> Miercoles
+                                            <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
+                                        </label>
+                                        <p name="miercoles_dia[]" style="display:none; color:red">Seleccione horario</p>
+                                    </td>
 
-                    <td class=" text-left">
-                        <select name="check_miercoles[]" class="form-control">
-                            <option value="no_horario">--:-- - --:--</option>
-                            <option value="8">08:00 h.</option>
-                            <option value="9">09:00 h.</option>
-                            <option value="10">10:00 h.</option>
-                            <option value="11">11:00 h.</option>
-                            <option value="12">12:00 h.</option>
-                            <option value="13">13:00 h.</option>
+                                    <td class=" text-left">
+                                        <select name="miercoles_manana[]" class="form-control">
+                                            <option value="no_horario">--:-- - --:--</option>
+                                            <option value="8">08:00 h.</option>
+                                            <option value="9">09:00 h.</option>
+                                            <option value="10">10:00 h.</option>
+                                            <option value="11">11:00 h.</option>
+                                            <option value="12">12:00 h.</option>
+                                            <option value="13">13:00 h.</option>
 
-                        </select>
-                        <select name="check_miercoles[]" class="form-control">
-                            <option value="no_horario">--:-- - --:--</option>
-                            <option value="9">09:00 h.</option>
-                            <option value="10">10:00 h.</option>
-                            <option value="11">11:00 h.</option>
-                            <option value="12">12:00 h.</option>
-                            <option value="13">13:00 h.</option>
-                            <option value="14">14:00 h.</option>
-
-
-                        </select>
-                    </td>
-                    <td class=" text-left">
-                        <select name="check_miercoles[]" class="form-control">
-                            <option value="no_horario">--:-- - --:--</option>
-                            <option value=" 14">14:00 h.</option>
-                            <option value=" 15">15:00 h.</option>
-                            <option value=" 16">16:00 h.</option>
-                            <option value=" 17">17:00 h.</option>
-                            <option value=" 18">18:00 h.</option>
-                            <option value=" 19">19:00 h.</option>
-                            <option value=" 20">20:00 h.</option>
-                            <option value=" 21">21:00 h.</option>
-
-                        </select>
-                        <select name="check_miercoles[]" class="form-control">
-                            <option value="no_horario">--:-- - --:--</option>
-                            <option value="15">15:00 h.</option>
-                            <option value="16">16:00 h.</option>
-                            <option value="17">17:00 h.</option>
-                            <option value="18">18:00 h.</option>
-                            <option value="19">19:00 h.</option>
-                            <option value="20">20:00 h.</option>
-                            <option value="21">21:00 h.</option>
-                            <option value="22">22:00 h.</option>
+                                        </select>
+                                        <select name="miercoles_manana[]" class="form-control">
+                                            <option value="no_horario">--:-- - --:--</option>
+                                            <option value="9">09:00 h.</option>
+                                            <option value="10">10:00 h.</option>
+                                            <option value="11">11:00 h.</option>
+                                            <option value="12">12:00 h.</option>
+                                            <option value="13">13:00 h.</option>
+                                            <option value="14">14:00 h.</option>
 
 
-                        </select>
-                    </td>
-                    </tr>
+                                        </select>
+                                    </td>
+                                    <td class=" text-left">
+                                        <select name="miercoles_tarde[]" class="form-control">
+                                            <option value="no_horario">--:-- - --:--</option>
+                                            <option value="14">14:00 h.</option>
+                                            <option value="15">15:00 h.</option>
+                                            <option value="16">16:00 h.</option>
+                                            <option value="17">17:00 h.</option>
+                                            <option value="18">18:00 h.</option>
+                                            <option value="19">19:00 h.</option>
+                                            <option value="20">20:00 h.</option>
+                                            <option value="21">21:00 h.</option>
+
+                                        </select>
+                                        <select name="miercoles_tarde[]" class="form-control">
+                                            <option value="no_horario">--:-- - --:--</option>
+                                            <option value="15">15:00 h.</option>
+                                            <option value="16">16:00 h.</option>
+                                            <option value="17">17:00 h.</option>
+                                            <option value="18">18:00 h.</option>
+                                            <option value="19">19:00 h.</option>
+                                            <option value="20">20:00 h.</option>
+                                            <option value="21">21:00 h.</option>
+                                            <option value="22">22:00 h.</option>
+
+
+                                        </select>
+                                    </td>
+
+                                </tr>
 
                     </tbody>
                     </table>
@@ -510,7 +522,7 @@ require_once('includes/head_pan_control.php');
         </div>
         <div class="col-md-6 push">
             <br>
-            <button type="button" class="btn btn-danger" onclick="<?php borra_preferencias();?>"><i class="fa fa-trash"></i> Borrar</button>
+            <a type="button" class="btn btn-danger" href="acciones/borra_preferencias.php"><i class="fa fa-trash"> Borrar </i></a>
         </div>
 
     </div>

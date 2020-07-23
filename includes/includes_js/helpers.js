@@ -1,22 +1,52 @@
 "use strict";
 
-function showContent(dia) {
+// function showContent(dia) {
+//
+//     var names = document.getElementsByName(dia);
+//     var check = document.getElementById(dia);
+//     var resultado;
+//     if (check.checked) {
+//         for (let index = 1; index < names.length; index++) {
+//             names[index].style.display = 'block';
+//         }
+//     } else {
+//         for (let index = 1; index < names.length; index++) {
+//             names[index].style.display = 'none';
+//         }
+//     }
+// }
 
-    var names = document.getElementsByName(dia);
-    var check = document.getElementById(dia);
+function showContent_manana(check_dia,turno_dia) {
+
+    var check = document.getElementById(check_dia);
+    var names = document.getElementsByName(turno_dia);
     var resultado;
     if (check.checked) {
-        for (let index = 1; index < names.length; index++) {
+        for (let index = 0; index < names.length; index++) {
             names[index].style.display = 'block';
         }
     } else {
-        for (let index = 1; index < names.length; index++) {
+        for (let index = 0; index < names.length; index++) {
             names[index].style.display = 'none';
         }
     }
 }
 
-function validacion() {
+function showContent_tarde(check_dia,turno_dia) {
+
+    var check = document.getElementById(check_dia);
+    var names = document.getElementsByName(turno_dia);
+    var resultado;
+    if (check.checked) {
+        for (let index = 0; index < names.length; index++) {
+            names[index].style.display = 'block';
+        }
+    } else {
+        for (let index = 0; index < names.length; index++) {
+            names[index].style.display = 'none';
+        }
+    }
+}function validacion() {
 
     var no_error = true;
     var no_manana = true;

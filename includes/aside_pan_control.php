@@ -13,10 +13,10 @@
                                 <ul>
                                    
                                     <li>
-                                        <a href="teach.php"><i class="fa fa-calendar"></i>Idioma para ensenar</a>
+                                        <a href="teach.php"><i class="fa fa-calendar"></i>Idioma que ofreces</a>
                                     </li>
                                     <li>
-                                        <a href="learn.php"><i class="fa fa-graduation-cap"></i>Idioma para aprender</a>
+                                        <a href="learn.php"><i class="fa fa-graduation-cap"></i>Idioma que demandas</a>
                                     </li>
                                     
                                 </ul>

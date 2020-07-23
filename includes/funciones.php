@@ -34,11 +34,11 @@ function obtener_imagen_usuario(){
   $mysqli = $GLOBALS['mysqli'];
 
   // consulta para traer los promedios peso maximo y la cuenta
-  $consulta = "SELECT `usuarios_imagen` FROM `usuarios` WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."'";
+  $consulta = "SELECT `usuario_imagen` FROM `usuario` WHERE `usuario_id` = '".$_SESSION['usuario_id']."'";
   $resultado = $mysqli->query($consulta);
   $fila = $resultado->fetch_assoc();
 
-  $ruta = $fila['usuarios_imagen'];
+  $ruta = $fila['usuario_imagen'];
   return $ruta;
 }
 
@@ -79,7 +79,7 @@ function graba_imagen($archivo){
   } else {
     if (move_uploaded_file($archivo["val_image"]["tmp_name"], $target_file)) {
       //$msg_uploaded .= "La imagen  ". basename($archivo["val_image"]["name"]). " ha sido subida.";
-      $mysqli->query("UPDATE `usuarios` SET `usuarios_imagen`= '".$target_file."' WHERE `usuarios_id` = '".$_SESSION['usuarios_id']."' ");
+      $mysqli->query("UPDATE `usuario` SET `usuario_imagen`= '".$target_file."' WHERE `usuario_id` = '".$_SESSION['usuario_id']."' ");
       //return $msg_uploaded;
     } else {
       $msg .= "Lo siento, hubo un error a la hora de grabar en disco la imagen.<br>";
@@ -100,10 +100,11 @@ function separa_horarios($nuevo_dia){
     }
   }
   if (count($nuevo_dia_separado)>1){
-    $clave = array_shift($nuevo_dia_separado);
+    $dia = array_shift($nuevo_dia_separado);
     $string_horarios = implode("," , $nuevo_dia_separado);
-    $cadena_para_bd = $clave . ": " . $string_horarios;
+    if (count($string_horarios)>2){
 
+    }
 
 
   }
@@ -116,7 +117,7 @@ function verifica_preferencia(){
   $mysqli = $GLOBALS['mysqli'];
 
   //preguntamos si existe alguna otra preferencia antes guardada
-  $consulta = "SELECT disponibilidad_idioma, disponibilidad_preferencias FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuarios_id']."'";
+  $consulta = "SELECT disponibilidad_idioma FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuario_id']."'";
   $resultado = $mysqli->query($consulta);
   $fila = $resultado->fetch_assoc();
 

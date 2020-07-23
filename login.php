@@ -22,27 +22,27 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
       die();
     }
 
-    $resultado = $mysqli->query("SELECT * FROM `usuarios` WHERE `usuarios_email` = '".$email."' AND  `usuarios_password` = '".$password."' ");
-    $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
+    $resultado = $mysqli->query("SELECT * FROM `usuario` WHERE `usuario_email` = '".$email."' AND  `usuario_password` = '".$password."' ");
+    $usuario = $resultado->fetch_all(MYSQLI_ASSOC);
 
     //cargo datos del usuario en variables de sesión
     
 
     //cuento cuantos elementos tiene $tabla,
-    $cantidad = count($usuarios);
+    $cantidad = count($usuario);
 
     if ($cantidad == 1){
       $hoy = date ( "Y-m-d H:i:s" );//para poner el time de ultimo login
-      $resultado = $mysqli->query("UPDATE `usuarios` SET `usuarios_ultimo_login` = '".$hoy."' WHERE `usuarios_email` =  '".$email."' ");
+      $resultado = $mysqli->query("UPDATE `usuario` SET `usuario_ultimo_login` = '".$hoy."' WHERE `usuario_email` =  '".$email."' ");
       $_SESSION['autorizado'] = true;
-      $_SESSION['usuarios'] = $usuarios;
+      $_SESSION['usuario'] = $usuario;
 
-      $_SESSION['usuarios_nombre'] = $usuarios[0]['usuarios_nombre'];
-      $_SESSION['usuarios_uvus'] = $usuarios[0]['usuarios_uvus'];
-      $_SESSION['usuarios_id'] = $usuarios[0]['usuarios_id'];
-      $_SESSION['usuarios_email'] = $usuarios[0]['usuarios_email'];
-      $_SESSION['usuarios_ultimo_login'] = $usuarios[0]['usuarios_ultimo_login'];
-      $msg .= "Bienvenido " . $_SESSION['usuarios_nombre'];
+      $_SESSION['usuario_nombre'] = $usuarios[0]['usuario_nombre'];
+      $_SESSION['usuario_uvus'] = $usuarios[0]['usuario_uvus'];
+      $_SESSION['usuario_id'] = $usuarios[0]['usuario_id'];
+      $_SESSION['usuario_email'] = $usuarios[0]['usuario_email'];
+      $_SESSION['usuario_ultimo_login'] = $usuarios[0]['usuario_ultimo_login'];
+      $msg .= "Bienvenido " . $_SESSION['usuario_nombre'];
 
       //redirigimos a la pagina del dashboard principal
       echo '<meta http-equiv="refresh" content="1; url=principal.php">';
