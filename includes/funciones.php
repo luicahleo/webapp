@@ -8,6 +8,25 @@ if ($mysqli==false){
 }
 
 
+function graba_idioma($idioma){
+  //traemos la conexión (global) a un ambito local (dentro de la función);
+  $mysqli = $GLOBALS['mysqli'];
+  //preguntamos si existe alguna otra preferencia antes guardada
+  $consulta = "SELECT `disponibilidad_usuario_id` FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuario_id']."'";
+  $resultado = $mysqli->query($consulta);
+  $fila = $resultado->fetch_assoc();
+  if($fila == null){
+
+    $consulta = "INSERT INTO disponibilidad(disponibilidad_usuario_id, disponibilidad_idioma) VALUES (".$_SESSION['usuario_id'].",'".$idioma."');";
+    $mysqli->query($consulta);
+    //$mysqli->query("INSERT INTO `disponibilidad`(`disponibilidad_usuario_id`,`disponibilidad_idioma`) VALUES (".$_SESSION['usuario_id'].",'".$idioma."');");
+    return $msg = "Preferencias guardadas";
+  }else{
+    $mysqli->query("UPDATE `disponibilidad` SET `disponibilidad_idioma`= '".$idioma."' WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuario_id']."' ");
+  }
+
+}
+
 function graba_idioma_preferencias($idioma, $string_dias_horarios){
   //traemos la conexión (global) a un ambito local (dentro de la función);
   $mysqli = $GLOBALS['mysqli'];
@@ -90,25 +109,22 @@ function graba_imagen($archivo){
 
 }
 
-function separa_horarios($nuevo_dia){
-  $nuevo_dia_separado = array();
-  $cadena_para_bd = '';
+function guarda_dia_horario($nuevo_dia){
+  //guardamos el dia y los horarios
+  //traemos la conexión (global) a un ambito local (dentro de la función);
+  $mysqli = $GLOBALS['mysqli'];
+
+  //preguntamos si existe alguna otra preferencia antes guardada
+  $consulta = "SELECT `disponibilidad_usuario_id` FROM `disponibilidad` WHERE `disponibilidad_usuario_id` = '".$_SESSION['usuarios_id']."'";
+  $resultado = $mysqli->query($consulta);
+  $fila = $resultado->fetch_assoc();
+
   //separamos el array
-  for ($i=0;$i<count($nuevo_dia);$i++){
+ /* for ($i=0;$i<count($nuevo_dia);$i++){
     if ($nuevo_dia[$i]!='no_horario'){
       array_push($nuevo_dia_separado,$nuevo_dia[$i]);
     }
-  }
-  if (count($nuevo_dia_separado)>1){
-    $dia = array_shift($nuevo_dia_separado);
-    $string_horarios = implode("," , $nuevo_dia_separado);
-    if (count($string_horarios)>2){
-
-    }
-
-
-  }
-  return $cadena_para_bd;
+  }*/
 }
 
 
@@ -128,15 +144,6 @@ function verifica_preferencia(){
   }else{
     return $array_vacio;
   }
-
-
-
-
-
-
-
-
-
 }
 
 function borra_preferencias(){

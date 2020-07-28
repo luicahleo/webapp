@@ -26,37 +26,58 @@ $string_dias_horarios = "";
 
 if (!empty($_POST)) {
     $idioma = $_POST['selecciona_idioma'];
-    $lunes = isset($_POST['lunes_dia']) ? $_POST['lunes_dia'] : false;
+    $lunes = isset($_POST['lunes']) ? $_POST['lunes'] : false;
     $lunes_manana = isset($_POST['lunes_manana']) ? $_POST['lunes_manana'] : false;
     $lunes_tarde = isset($_POST['lunes_tarde']) ? $_POST['lunes_tarde'] : false;
+    $array_lunes = array();
+    if($lunes){
+        $array_lunes = [$lunes,$lunes_manana,$lunes_tarde];
+    }else{
+        $array_lunes = false;
+    }
 
-    $martes = isset($_POST['martes_dia']) ? $_POST['martes_dia'] : false;
+    $martes = isset($_POST['martes']) ? $_POST['martes'] : false;
     $martes_manana = isset($_POST['martes_manana']) ? $_POST['martes_manana'] : false;
     $martes_tarde = isset($_POST['martes_tarde']) ? $_POST['martes_tarde'] : false;
+    $array_martes = array();
+    if($lunes){
+        $array_martes = [$martes,$martes_manana,$martes_tarde];
+    }else{
+        $array_martes = false;
+    }
 
-    $miercoles = isset($_POST['miercoles_dia']) ? $_POST['miercoles_dia'] : false;
+
+    $miercoles = isset($_POST['miercoles']) ? $_POST['miercoles'] : false;
     $miercoles_manana = isset($_POST['miercoles_manana']) ? $_POST['miercoles_manana'] : false;
     $miercoles_tarde = isset($_POST['miercoles_tarde']) ? $_POST['miercoles_tarde'] : false;
+    $array_miercoles = array();
+    if($miercoles){
+        $array_miercoles = [$miercoles,$miercoles_manana,$miercoles_tarde];
+    }else{
+        $array_miercoles = false;
+    }
 
-
-
-
-
-
-
-    $array_dias = array($lunes, $martes, $miercoles);
+    $array_dias = array($array_lunes, $array_martes, $array_miercoles);
     $string_resultado = "";
-    $contador = 0;
+    graba_idioma($idioma);
     for ($i = 0; $i < count($array_dias); $i++) {
+        if ($array_dias[$i]){
+            
+            
+        }
+    }
+    
+    
+/*    for ($i = 0; $i < count($array_dias); $i++) {
         if (separa_horarios($array_dias[$i]) != '') {
             $string_resultado .= separa_horarios($array_dias[$i]) . "-";
             $contador++;
         }
-    }
+    }*/
     //quitamos el ultimo caracter
-    $string_resultado = substr($string_resultado, 0, -1);
+    //$string_resultado = substr($string_resultado, 0, -1);
 
-    $msg = graba_idioma_preferencias($idioma, $string_resultado);
+    //$msg = graba_idioma_preferencias($idioma, $string_resultado);
 
 }
 
@@ -263,13 +284,13 @@ require_once('includes/head_pan_control.php');
                                 <tr>
 
                                     <td class="text-left"><label id="label_lunes"><input type="checkbox"
-                                                                                         name="lunes_dia"
-                                                                                         id="lunes_dia"
-                                                                                         onchange="showContent_manana('lunes_dia','lunes_manana[]'); showContent_tarde('lunes_dia','lunes_tarde[]')"
+                                                                                         name="lunes"
+                                                                                         id="lunes"
+                                                                                         onchange="showContent_manana('lunes','lunes_manana[]'); showContent_tarde('lunes','lunes_tarde[]')"
                                                                                          value="lunes"> Lunes
                                             <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
                                         </label>
-                                        <p name="lunes_dia[]" style="display:none; color:red">Seleccione horario</p>
+                                        <p name="lunes_parrafo" style="display:none; color:red">Seleccione horario</p>
                                     </td>
 
                                     <td class=" text-left">
@@ -326,13 +347,13 @@ require_once('includes/head_pan_control.php');
                                 </tr>
                                 <tr>
                                     <td class="text-left"><label id="label_martes"><input type="checkbox"
-                                                                                         name="martes_dia"
-                                                                                         id="martes_dia"
-                                                                                         onchange="showContent_manana('martes_dia','martes_manana[]'); showContent_tarde('martes_dia','martes_tarde[]')"
+                                                                                         name="martes"
+                                                                                         id="martes"
+                                                                                         onchange="showContent_manana('martes','martes_manana[]'); showContent_tarde('martes','martes_tarde[]')"
                                                                                          value="martes"> Martes
                                             <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
                                         </label>
-                                        <p name="martes_dia[]" style="display:none; color:red">Seleccione horario</p>
+                                        <p name="martes_parrafo" style="display:none; color:red">Seleccione horario</p>
                                     </td>
 
                         <td class=" text-left">
@@ -389,13 +410,13 @@ require_once('includes/head_pan_control.php');
                                 <tr>
 
                                     <td class="text-left"><label id="label_miercoles"><input type="checkbox"
-                                                                                         name="miercoles_dia"
-                                                                                         id="miercoles_dia"
-                                                                                         onchange="showContent_manana('miercoles_dia','miercoles_manana[]'); showContent_tarde('miercoles_dia','miercoles_tarde[]')"
-                                                                                         value="lunes"> Miercoles
+                                                                                         name="miercoles"
+                                                                                         id="miercoles"
+                                                                                         onchange="showContent_manana('miercoles','miercoles_manana[]'); showContent_tarde('miercoles','miercoles_tarde[]')"
+                                                                                         value="miercoles"> Miercoles
                                             <Div id="id_fantasma" class="fantasma"> Mi texto oculto</div>
                                         </label>
-                                        <p name="miercoles_dia[]" style="display:none; color:red">Seleccione horario</p>
+                                        <p name="miercoles_parrafo" style="display:none; color:red">Seleccione horario</p>
                                     </td>
 
                                     <td class=" text-left">

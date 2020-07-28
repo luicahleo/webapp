@@ -37,11 +37,11 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
       $_SESSION['autorizado'] = true;
       $_SESSION['usuario'] = $usuario;
 
-      $_SESSION['usuario_nombre'] = $usuarios[0]['usuario_nombre'];
-      $_SESSION['usuario_uvus'] = $usuarios[0]['usuario_uvus'];
-      $_SESSION['usuario_id'] = $usuarios[0]['usuario_id'];
-      $_SESSION['usuario_email'] = $usuarios[0]['usuario_email'];
-      $_SESSION['usuario_ultimo_login'] = $usuarios[0]['usuario_ultimo_login'];
+      $_SESSION['usuario_nombre'] = $usuario[0]['usuario_nombre'];
+      $_SESSION['usuario_uvus'] = $usuario[0]['usuario_uvus'];
+      $_SESSION['usuario_id'] = $usuario[0]['usuario_id'];
+      $_SESSION['usuario_email'] = $usuario[0]['usuario_email'];
+      $_SESSION['usuario_ultimo_login'] = $usuario[0]['usuario_ultimo_login'];
       $msg .= "Bienvenido " . $_SESSION['usuario_nombre'];
 
       //redirigimos a la pagina del dashboard principal
